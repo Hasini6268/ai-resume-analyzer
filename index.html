@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Resume Analyzer</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.25);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            margin: 0;
+
+            font-size: 42px;
+
+            color: #333;
+        }
+
+        .header p {
+            margin-top: 12px;
+
+            font-size: 17px;
+
+            color: #777;
+        }
+
+        .badge {
+            display: inline-block;
+
+            margin-top: 12px;
+
+            padding: 8px 15px;
+
+            border-radius: 20px;
+
+            background: #eeeaff;
+
+            color: #6246ea;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        .input-card {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8f9ff,
+                    #eef1ff
+                );
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            border: 1px solid #e0e4ff;
+        }
+
+        .field {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 10px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            color: #333;
+        }
+
+        input[type="file"] {
+
+            width: 100%;
+
+            padding: 14px;
+
+            background: white;
+
+            border: 1px solid #ccc;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+            cursor: pointer;
+        }
+
+        textarea {
+
+            width: 100%;
+
+            min-height: 220px;
+
+            padding: 15px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 12px;
+
+            resize: vertical;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        textarea:focus {
+
+            border-color: #667eea;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(102, 126, 234, 0.12);
+        }
+
+        .analyze-button {
+
+            width: 100%;
+
+            padding: 17px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+
+            color: white;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .analyze-button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(102, 126, 234, 0.35);
+        }
+
+        .analyze-button:disabled {
+
+            opacity: 0.7;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+        .info-section {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-top: 30px;
+        }
+
+        .info-card {
+
+            padding: 20px;
+
+            text-align: center;
+
+            background: #fafafa;
+
+            border-radius: 15px;
+
+            border: 1px solid #eee;
+        }
+
+        .info-card .icon {
+
+            font-size: 30px;
+
+            margin-bottom: 10px;
+        }
+
+        .info-card h3 {
+
+            margin: 5px 0;
+
+            font-size: 16px;
+        }
+
+        .info-card p {
+
+            margin: 0;
+
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        .status {
+
+            display: none;
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            font-weight: bold;
+        }
+
+        .status.loading {
+
+            display: block;
+
+            background: #eeeaff;
+
+            color: #6246ea;
+        }
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 30px;
+
+            color: white;
+
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .info-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+            🤖 AI Resume Analyzer
+        </h1>
+
+        <p>
+            Evidence-Based Resume & Job Intelligence System
+        </p>
+
+        <div class="badge">
+            🔬 Evidence-Based Skill Analysis
+        </div>
+
+    </div>
+
+
+    <div class="input-card">
+
+        <div class="field">
+
+            <label for="resume">
+                📄 Upload Your Resume
+            </label>
+
+            <input
+                type="file"
+                id="resume"
+                accept=".pdf"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="jobDescription">
+                💼 Job Description
+            </label>
+
+            <textarea
+                id="jobDescription"
+                placeholder="Paste the job description here..."
+            ></textarea>
+
+        </div>
+
+
+        <button
+            class="analyze-button"
+            id="analyzeButton"
+            onclick="analyzeResume()"
+        >
+            🚀 Analyze My Resume
+        </button>
+
+
+        <div
+            id="status"
+            class="status"
+        ></div>
+
+    </div>
+
+
+    <div class="info-section">
+
+        <div class="info-card">
+
+            <div class="icon">
+                📊
+            </div>
+
+            <h3>
+                Job Fit
+            </h3>
+
+            <p>
+                Compare your resume skills
+                with required job skills.
+            </p>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <div class="icon">
+                🔍
+            </div>
+
+            <h3>
+                Evidence Analysis
+            </h3>
+
+            <p>
+                Check whether your claimed
+                skills have supporting evidence.
+            </p>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <div class="icon">
+                🎯
+            </div>
+
+            <h3>
+                Skill Gaps
+            </h3>
+
+            <p>
+                Identify missing skills and
+                learning recommendations.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+    AI Resume Analyzer • Evidence-Based Resume Intelligence
+
+</div>
+
+
+<script>
+
+async function analyzeResume() {
+
+    const resumeInput =
+        document.getElementById("resume");
+
+    const jobDescriptionInput =
+        document.getElementById("jobDescription");
+
+    const button =
+        document.getElementById("analyzeButton");
+
+    const status =
+        document.getElementById("status");
+
+
+    const resume =
+        resumeInput.files[0];
+
+    const jobDescription =
+        jobDescriptionInput.value;
+
+
+    /* ---------------------------
+       VALIDATION
+    ---------------------------- */
+
+    if (!resume) {
+
+        alert(
+            "Please upload your resume."
+        );
+
+        return;
+    }
+
+
+    if (!jobDescription.trim()) {
+
+        alert(
+            "Please enter the job description."
+        );
+
+        return;
+    }
+
+
+    /* ---------------------------
+       CHECK PDF
+    ---------------------------- */
+
+    if (
+        !resume.name
+            .toLowerCase()
+            .endsWith(".pdf")
+    ) {
+
+        alert(
+            "Please upload a PDF resume."
+        );
+
+        return;
+    }
+
+
+    /* ---------------------------
+       SHOW LOADING
+    ---------------------------- */
+
+    button.disabled = true;
+
+    button.innerText =
+        "⏳ Analyzing Resume...";
+
+    status.className =
+        "status loading";
+
+    status.innerText =
+        "🔍 Analyzing your resume. Please wait...";
+
+
+    /* ---------------------------
+       CREATE FORM DATA
+    ---------------------------- */
+
+    const formData =
+        new FormData();
+
+    formData.append(
+        "resume",
+        resume
+    );
+
+    formData.append(
+        "job_description",
+        jobDescription
+    );
+
+
+    try {
+
+        /* ---------------------------
+           SEND TO FLASK
+        ---------------------------- */
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:5000/analyze",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        /* ---------------------------
+           CHECK SERVER ERROR
+        ---------------------------- */
+
+        if (!response.ok || data.error) {
+
+            throw new Error(
+                data.error ||
+                "Analysis failed."
+            );
+        }
+
+
+        /* ---------------------------
+           SAVE RESULT
+        ---------------------------- */
+
+        localStorage.setItem(
+            "resumeAnalysis",
+            JSON.stringify(data)
+        );
+
+
+        /* ---------------------------
+           OPEN RESULTS TAB
+        ---------------------------- */
+
+        window.open(
+            "results.html",
+            "_blank"
+        );
+
+
+        /* ---------------------------
+           RESET BUTTON
+        ---------------------------- */
+
+        button.disabled = false;
+
+        button.innerText =
+            "🚀 Analyze My Resume";
+
+        status.style.display =
+            "none";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        alert(
+            "❌ Error:\n\n" +
+            error.message +
+            "\n\n" +
+            "Make sure Flask is running using:\n" +
+            "python app.py"
+        );
+
+
+        button.disabled = false;
+
+        button.innerText =
+            "🚀 Analyze My Resume";
+
+        status.style.display =
+            "none";
+    }
+
+}
+
+</script>
+
+</body>
+</html>

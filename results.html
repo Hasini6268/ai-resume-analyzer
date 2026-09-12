@@ -1,0 +1,2631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Resume Analysis Results
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            padding: 35px 20px;
+
+            font-family:
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+
+            min-height: 100vh;
+
+            color: #333;
+        }
+
+
+        .container {
+
+            max-width: 1150px;
+
+            margin: auto;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0,0,0,0.25);
+        }
+
+
+        /* ==========================================
+           HEADER
+        ========================================== */
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 38px;
+        }
+
+
+        .header p {
+
+            color: #777;
+
+            margin-top: 10px;
+        }
+
+
+        .research-badge {
+
+            display: inline-block;
+
+            margin-top: 10px;
+
+            padding: 8px 15px;
+
+            border-radius: 20px;
+
+            background: #eeeaff;
+
+            color: #6246ea;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        /* ==========================================
+           SCORE SECTION
+        ========================================== */
+
+        .score-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 25px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .score-card {
+
+            padding: 30px;
+
+            text-align: center;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8f9ff,
+                    #eef1ff
+                );
+
+            border:
+                1px solid #e0e4ff;
+        }
+
+
+        .score-card h2 {
+
+            margin-top: 0;
+
+            font-size: 20px;
+        }
+
+
+        .score {
+
+            font-size: 55px;
+
+            font-weight: bold;
+
+            color: #6246ea;
+
+            margin: 15px 0;
+        }
+
+
+        .score-description {
+
+            color: #777;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+
+        /* ==========================================
+           RESEARCH INSIGHT
+        ========================================== */
+
+        .research-box {
+
+            margin-bottom: 30px;
+
+            padding: 25px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f4f0ff,
+                    #faf8ff
+                );
+
+            border-left:
+                5px solid #764ba2;
+        }
+
+
+        .research-box h2 {
+
+            margin-top: 0;
+
+            color: #6246ea;
+        }
+
+
+        .research-box p {
+
+            line-height: 1.7;
+
+            color: #555;
+        }
+
+
+        /* ==========================================
+           SECTIONS
+        ========================================== */
+
+        .section {
+
+            margin-top: 30px;
+
+            padding: 25px;
+
+            border-radius: 18px;
+
+            background: #fafafa;
+
+            border: 1px solid #eee;
+        }
+
+
+        .section h2 {
+
+            margin-top: 0;
+
+            margin-bottom: 20px;
+
+            font-size: 23px;
+        }
+
+
+        /* ==========================================
+           SKILL GRID
+        ========================================== */
+
+        .skill-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(180px, 1fr)
+                );
+
+            gap: 12px;
+        }
+
+
+        .skill {
+
+            padding: 12px 15px;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+
+        .skill.resume {
+
+            background: #e8f5e9;
+
+            color: #2e7d32;
+        }
+
+
+        .skill.matched {
+
+            background: #e3f2fd;
+
+            color: #1565c0;
+        }
+
+
+        .skill.missing {
+
+            background: #ffebee;
+
+            color: #c62828;
+        }
+
+
+        /* ==========================================
+           SKILL GAP SUMMARY
+        ========================================== */
+
+        .gap-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    3,
+                    1fr
+                );
+
+            gap: 18px;
+        }
+
+
+        .gap-card {
+
+            padding: 22px;
+
+            border-radius: 15px;
+
+            text-align: center;
+
+            background: white;
+
+            border: 1px solid #eee;
+
+            box-shadow:
+                0 5px 15px
+                rgba(0,0,0,0.05);
+        }
+
+
+        .gap-card h3 {
+
+            margin-top: 0;
+
+            font-size: 16px;
+        }
+
+
+        .gap-number {
+
+            font-size: 32px;
+
+            font-weight: bold;
+
+            color: #6246ea;
+
+            margin: 10px 0;
+        }
+
+
+        .gap-description {
+
+            font-size: 13px;
+
+            color: #777;
+
+            line-height: 1.5;
+        }
+
+
+        /* ==========================================
+           PRIORITY BADGES
+        ========================================== */
+
+        .priority-badge {
+
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        .priority-high {
+
+            background: #ffebee;
+
+            color: #c62828;
+        }
+
+
+        .priority-medium {
+
+            background: #fff8e1;
+
+            color: #f57f17;
+        }
+
+
+        .priority-low {
+
+            background: #e8f5e9;
+
+            color: #2e7d32;
+        }
+
+
+        /* ==========================================
+           TABLE
+        ========================================== */
+
+        .table-container {
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse:
+                collapse;
+        }
+
+
+        th {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+
+            color: white;
+
+            padding: 14px;
+
+            text-align: left;
+        }
+
+
+        td {
+
+            padding: 14px;
+
+            border-bottom:
+                1px solid #eee;
+
+            vertical-align: top;
+
+            line-height: 1.5;
+        }
+
+
+        tr:hover {
+
+            background: #f8f8ff;
+        }
+
+
+        /* ==========================================
+           EVIDENCE BADGES
+        ========================================== */
+
+        .badge {
+
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 15px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        .strong {
+
+            background: #e8f5e9;
+
+            color: #2e7d32;
+        }
+
+
+        .moderate {
+
+            background: #fff8e1;
+
+            color: #f57f17;
+        }
+
+
+        .weak {
+
+            background: #ffebee;
+
+            color: #c62828;
+        }
+
+
+        /* ==========================================
+           JOB RELEVANCE
+        ========================================== */
+
+        .high {
+
+            color: #2e7d32;
+
+            font-weight: bold;
+        }
+
+
+        .medium {
+
+            color: #f57f17;
+
+            font-weight: bold;
+        }
+
+
+        .low {
+
+            color: #c62828;
+
+            font-weight: bold;
+        }
+
+
+        .missing-text {
+
+            color: #c62828;
+
+            font-weight: bold;
+        }
+
+
+        /* ==========================================
+           RECOMMENDATIONS
+        ========================================== */
+
+        .recommendation {
+
+            margin-bottom: 20px;
+
+            padding: 22px;
+
+            border-radius: 15px;
+
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-left:
+                5px solid #667eea;
+
+            box-shadow:
+                0 5px 15px
+                rgba(0,0,0,0.05);
+        }
+
+
+        .recommendation:last-child {
+
+            margin-bottom: 0;
+        }
+
+
+        .recommendation-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .recommendation-title {
+
+            margin: 0;
+
+            color: #6246ea;
+
+            font-size: 20px;
+        }
+
+
+        .recommendation h4 {
+
+            margin-top: 18px;
+
+            margin-bottom: 8px;
+
+            color: #444;
+        }
+
+
+        .recommendation ul {
+
+            margin-top: 8px;
+
+            padding-left: 25px;
+        }
+
+
+        .recommendation li {
+
+            margin-bottom: 10px;
+
+            color: #555;
+
+            line-height: 1.5;
+        }
+
+
+        .recommendation p {
+
+            color: #666;
+
+            line-height: 1.6;
+        }
+
+
+        /* ==========================================
+           LEARNING RESOURCE LINKS
+        ========================================== */
+
+        .resource-link {
+
+            display: inline-block;
+
+            padding: 9px 14px;
+
+            border-radius: 9px;
+
+            background: #f1f3ff;
+
+            color: #4f46e5;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            border: 1px solid #dfe3ff;
+
+            transition:
+                all 0.2s ease;
+        }
+
+
+        .resource-link:hover {
+
+            background: #e5e7ff;
+
+            transform:
+                translateY(-1px);
+
+            text-decoration: none;
+        }
+
+
+        .resource-icon {
+
+            margin-right: 5px;
+        }
+
+
+        .practice-box {
+
+            margin-top: 12px;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            background: #f8f9ff;
+
+            border: 1px solid #e5e7ff;
+        }
+
+
+        .practice-box p {
+
+            margin-bottom: 0;
+        }
+
+
+        .project-box {
+
+            margin-top: 12px;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            background: #f4fbf7;
+
+            border: 1px solid #d8f0df;
+        }
+
+
+        .project-box p {
+
+            margin-bottom: 0;
+        }
+
+
+        /* ==========================================
+           LEARNING ORDER
+        ========================================== */
+
+        .learning-order {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(220px, 1fr)
+                );
+
+            gap: 12px;
+
+            margin-top: 15px;
+        }
+
+
+        .learning-order-item {
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            background: white;
+
+            border: 1px solid #eee;
+
+            font-weight: bold;
+        }
+
+
+        .learning-order-number {
+
+            display: inline-flex;
+
+            width: 28px;
+
+            height: 28px;
+
+            border-radius: 50%;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #667eea;
+
+            color: white;
+
+            margin-right: 8px;
+        }
+
+
+        /* ==========================================
+           BUTTONS
+        ========================================== */
+
+        .button-container {
+
+            display: flex;
+
+            gap: 15px;
+
+            margin-top: 30px;
+        }
+
+
+        .button {
+
+            flex: 1;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+
+        .back-button {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+
+            color: white;
+        }
+
+
+        .clear-button {
+
+            background: #eee;
+
+            color: #555;
+        }
+
+
+        .button:hover {
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* ==========================================
+           ERROR
+        ========================================== */
+
+        .error {
+
+            text-align: center;
+
+            padding: 40px;
+
+            color: #c62828;
+        }
+
+
+        .error h2 {
+
+            font-size: 28px;
+        }
+
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 750px) {
+
+            .container {
+
+                padding: 22px;
+            }
+
+
+            .score-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .gap-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .button-container {
+
+                flex-direction:
+                    column;
+            }
+
+
+            .recommendation-header {
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    flex-start;
+            }
+
+
+            .header h1 {
+
+                font-size: 30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- ==========================================
+         HEADER
+    ========================================== -->
+
+    <div class="header">
+
+        <h1>
+            📊 Resume Analysis Results
+        </h1>
+
+        <p>
+            Evidence-Based Resume & Job Intelligence System
+        </p>
+
+        <div class="research-badge">
+
+            🔬 Evidence-Based Analysis
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULTS -->
+
+    <div id="results">
+
+        <div style="text-align:center;">
+
+            Loading analysis...
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* ==========================================
+   GET STORED ANALYSIS
+========================================== */
+
+const storedData =
+    localStorage.getItem(
+        "resumeAnalysis"
+    );
+
+
+
+/* ==========================================
+   CHECK DATA
+========================================== */
+
+if (!storedData) {
+
+    document.getElementById(
+        "results"
+    ).innerHTML = `
+
+        <div class="error">
+
+            <h2>
+                ❌ No analysis data found
+            </h2>
+
+            <p>
+                Please return to the main page
+                and analyze your resume again.
+            </p>
+
+            <div class="button-container">
+
+                <a
+                    href="index.html"
+                    class="button back-button"
+                >
+                    ← Return to Analyzer
+                </a>
+
+            </div>
+
+        </div>
+
+    `;
+
+} else {
+
+    try {
+
+        const data =
+            JSON.parse(storedData);
+
+        displayResults(data);
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "results"
+        ).innerHTML = `
+
+            <div class="error">
+
+                <h2>
+                    ❌ Invalid Analysis Data
+                </h2>
+
+                <p>
+                    Please analyze the resume again.
+                </p>
+
+                <div class="button-container">
+
+                    <a
+                        href="index.html"
+                        class="button back-button"
+                    >
+                        ← Return to Analyzer
+                    </a>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* ==========================================
+   DISPLAY RESULTS
+========================================== */
+
+function displayResults(data) {
+
+
+    const results =
+        document.getElementById(
+            "results"
+        );
+
+
+
+    /* ======================================
+       SCORES
+    ====================================== */
+
+    const matchScore =
+        data.match_score ?? 0;
+
+    const evidenceScore =
+        data.evidence_aware_score ?? 0;
+
+    const averageEvidence =
+        data.average_evidence_score ?? 0;
+
+    const evidenceCoverage =
+        data.evidence_coverage ?? 0;
+
+
+
+    /* ======================================
+       SKILLS
+    ====================================== */
+
+    const resumeSkills =
+        data.resume_skills || [];
+
+    const matchedSkills =
+        data.matched_skills || [];
+
+    const missingSkills =
+        data.missing_skills || [];
+
+    const requiredSkills =
+        data.required_skills || [];
+
+
+
+    /* ======================================
+       SKILL GAP
+    ====================================== */
+
+    const skillGap =
+        data.skill_gap_percentage ?? 0;
+
+    const skillMatch =
+        data.skill_match_percentage ?? 0;
+
+    const prioritizedMissing =
+        data.prioritized_missing_skills || [];
+
+    const highPriorityGaps =
+        data.high_priority_gaps || [];
+
+    const learningOrder =
+        data.learning_order || [];
+
+
+
+    /* ======================================
+       EVIDENCE
+    ====================================== */
+
+    const evidenceAnalysis =
+        data.evidence_analysis || [];
+
+
+
+    /* ======================================
+       JOB RELEVANCE
+    ====================================== */
+
+    const jobRelevance =
+        data.job_relevance || [];
+
+
+
+    /* ======================================
+       RECOMMENDATIONS
+    ====================================== */
+
+    const recommendations =
+        data.learning_recommendations || [];
+
+
+
+    /* ======================================
+       RESUME SKILLS HTML
+    ====================================== */
+
+    let resumeSkillsHTML = "";
+
+
+    if (resumeSkills.length === 0) {
+
+        resumeSkillsHTML =
+            "<p>No skills detected.</p>";
+
+    }
+
+    else {
+
+        resumeSkills.forEach(
+            function(skill) {
+
+                resumeSkillsHTML += `
+
+                    <div class="skill resume">
+
+                        ${escapeHTML(skill)}
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+
+    /* ======================================
+       MATCHED SKILLS HTML
+    ====================================== */
+
+    let matchedSkillsHTML = "";
+
+
+    if (matchedSkills.length === 0) {
+
+        matchedSkillsHTML =
+            "<p>No matched skills.</p>";
+
+    }
+
+    else {
+
+        matchedSkills.forEach(
+            function(skill) {
+
+                matchedSkillsHTML += `
+
+                    <div class="skill matched">
+
+                        ✓ ${escapeHTML(skill)}
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+
+    /* ======================================
+       MISSING SKILLS HTML
+    ====================================== */
+
+    let missingSkillsHTML = "";
+
+
+    if (missingSkills.length === 0) {
+
+        missingSkillsHTML = `
+
+            <p>
+
+                🎉 No major missing skills detected!
+
+            </p>
+
+        `;
+
+    }
+
+    else {
+
+        missingSkills.forEach(
+            function(skill) {
+
+                missingSkillsHTML += `
+
+                    <div class="skill missing">
+
+                        ✗ ${escapeHTML(skill)}
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+
+    /* ======================================
+       PRIORITIZED SKILL GAPS
+    ====================================== */
+
+    let prioritizedGapHTML = "";
+
+
+    if (
+        prioritizedMissing.length === 0
+    ) {
+
+        prioritizedGapHTML = `
+
+            <p>
+                🎉 No skill gaps require attention.
+            </p>
+
+        `;
+
+    }
+
+    else {
+
+        prioritizedMissing.forEach(
+            function(item) {
+
+                let priorityClass =
+                    "priority-medium";
+
+                if (
+                    item.priority === "High"
+                ) {
+
+                    priorityClass =
+                        "priority-high";
+
+                }
+
+                else if (
+                    item.priority === "Low"
+                ) {
+
+                    priorityClass =
+                        "priority-low";
+
+                }
+
+
+                prioritizedGapHTML += `
+
+                    <div
+                        class="recommendation"
+                    >
+
+                        <div
+                            class="recommendation-header"
+                        >
+
+                            <h3
+                                class="recommendation-title"
+                            >
+
+                                🎯 ${escapeHTML(
+                                    item.skill
+                                )}
+
+                            </h3>
+
+                            <span
+                                class="priority-badge ${priorityClass}"
+                            >
+
+                                ${escapeHTML(
+                                    item.priority
+                                )} Priority
+
+                            </span>
+
+                        </div>
+
+                        <p>
+
+                            This skill is currently
+                            missing from the resume
+                            and has been prioritized
+                            based on its job relevance.
+
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+
+    /* ======================================
+       LEARNING ORDER
+    ====================================== */
+
+    let learningOrderHTML = "";
+
+
+    if (learningOrder.length === 0) {
+
+        learningOrderHTML = `
+
+            <p>
+                No learning order available.
+            </p>
+
+        `;
+
+    }
+
+    else {
+
+        learningOrder.forEach(
+            function(item, index) {
+
+                let priorityClass =
+                    "priority-medium";
+
+                if (
+                    item.priority === "High"
+                ) {
+
+                    priorityClass =
+                        "priority-high";
+
+                }
+
+                else if (
+                    item.priority === "Low"
+                ) {
+
+                    priorityClass =
+                        "priority-low";
+
+                }
+
+
+                learningOrderHTML += `
+
+                    <div
+                        class="learning-order-item"
+                    >
+
+                        <span
+                            class="learning-order-number"
+                        >
+
+                            ${index + 1}
+
+                        </span>
+
+                        ${escapeHTML(item.skill)}
+
+                        <br>
+
+                        <span
+                            class="priority-badge ${priorityClass}"
+                            style="margin-top:8px;"
+                        >
+
+                            ${escapeHTML(
+                                item.priority
+                            )}
+
+                        </span>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+
+    /* ======================================
+       EVIDENCE TABLE
+    ====================================== */
+
+    let evidenceRows = "";
+
+
+    if (evidenceAnalysis.length === 0) {
+
+        evidenceRows = `
+
+            <tr>
+
+                <td colspan="5">
+
+                    No evidence analysis available.
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+    else {
+
+        evidenceAnalysis.forEach(
+            function(item) {
+
+                let badgeClass =
+                    "weak";
+
+
+                if (
+                    item.strength ===
+                    "Strong Evidence"
+                ) {
+
+                    badgeClass =
+                        "strong";
+
+                }
+
+                else if (
+                    item.strength ===
+                    "Moderate Evidence"
+                ) {
+
+                    badgeClass =
+                        "moderate";
+
+                }
+
+
+                const evidenceText =
+                    item.evidence &&
+                    item.evidence.length
+
+                        ? item.evidence.join(", ")
+
+                        : "None";
+
+
+                evidenceRows += `
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                ${escapeHTML(
+                                    item.skill
+                                )}
+
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                evidenceText
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="badge ${badgeClass}"
+                            >
+
+                                ${escapeHTML(
+                                    item.strength
+                                )}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            ${item.evidence_score ?? 0}/100
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                item.reason || ""
+                            )}
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+
+    /* ======================================
+       JOB RELEVANCE TABLE
+    ====================================== */
+
+    let relevanceRows = "";
+
+
+    if (jobRelevance.length === 0) {
+
+        relevanceRows = `
+
+            <tr>
+
+                <td colspan="3">
+
+                    No job relevance analysis available.
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+    else {
+
+        jobRelevance.forEach(
+            function(item) {
+
+                let className =
+                    "low";
+
+
+                if (
+                    item.relevance ===
+                    "High Job Relevance"
+                ) {
+
+                    className =
+                        "high";
+
+                }
+
+                else if (
+                    item.relevance ===
+                    "Moderate Job Relevance"
+                ) {
+
+                    className =
+                        "medium";
+
+                }
+
+                else if (
+                    item.relevance ===
+                    "Missing Skill"
+                ) {
+
+                    className =
+                        "missing-text";
+
+                }
+
+
+                relevanceRows += `
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+
+                                ${escapeHTML(
+                                    item.skill
+                                )}
+
+                            </strong>
+
+                        </td>
+
+
+                        <td
+                            class="${className}"
+                        >
+
+                            ${escapeHTML(
+                                item.relevance
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHTML(
+                                item.reason || ""
+                            )}
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+
+    /* ======================================
+       LEARNING RECOMMENDATIONS
+    ====================================== */
+
+    let recommendationHTML = "";
+
+
+    if (recommendations.length === 0) {
+
+        recommendationHTML = `
+
+            <div class="recommendation">
+
+                <h3>
+                    🎉 Excellent!
+                </h3>
+
+                <p>
+
+                    No major missing skills were
+                    detected for this job.
+
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    else {
+
+        recommendations.forEach(
+            function(item) {
+
+
+                /* --------------------------------
+                   PRIORITY CLASS
+                -------------------------------- */
+
+                let priorityClass =
+                    "priority-medium";
+
+
+                if (
+                    item.priority === "High"
+                ) {
+
+                    priorityClass =
+                        "priority-high";
+
+                }
+
+                else if (
+                    item.priority === "Low"
+                ) {
+
+                    priorityClass =
+                        "priority-low";
+
+                }
+
+
+
+                /* --------------------------------
+                   RESOURCES
+                -------------------------------- */
+
+                let resourcesHTML = "";
+
+
+                if (
+                    item.resources &&
+                    item.resources.length > 0
+                ) {
+
+                    item.resources.forEach(
+                        function(resource) {
+
+                            /*
+                             * New recommender.py format:
+                             *
+                             * {
+                             *     name: "...",
+                             *     url: "..."
+                             * }
+                             */
+
+                            const resourceName =
+                                resource.name ||
+                                "Learning Resource";
+
+                            const resourceURL =
+                                resource.url ||
+                                "#";
+
+
+                            resourcesHTML += `
+
+                                <li>
+
+                                    <a
+                                        href="${safeURL(resourceURL)}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="resource-link"
+                                    >
+
+                                        <span class="resource-icon">
+                                            🔗
+                                        </span>
+
+                                        ${escapeHTML(
+                                            resourceName
+                                        )}
+
+                                    </a>
+
+                                </li>
+
+                            `;
+
+                        }
+                    );
+
+                }
+
+                else {
+
+                    resourcesHTML = `
+
+                        <li>
+                            No specific learning resource available.
+                        </li>
+
+                    `;
+
+                }
+
+
+
+                /* --------------------------------
+                   RECOMMENDATION CARD
+                -------------------------------- */
+
+                recommendationHTML += `
+
+                    <div class="recommendation">
+
+
+                        <div
+                            class="recommendation-header"
+                        >
+
+                            <h3
+                                class="recommendation-title"
+                            >
+
+                                📚 Learn ${escapeHTML(
+                                    item.skill
+                                )}
+
+                            </h3>
+
+
+                            <span
+                                class="priority-badge ${priorityClass}"
+                            >
+
+                                🎯 ${escapeHTML(
+                                    item.priority ||
+                                    "Medium"
+                                )} Priority
+
+                            </span>
+
+                        </div>
+
+
+
+                        <h4>
+                            🔗 Recommended Learning Resources
+                        </h4>
+
+
+                        <ul>
+
+                            ${resourcesHTML}
+
+                        </ul>
+
+
+
+                        <div
+                            class="practice-box"
+                        >
+
+                            <b>
+                                🧪 Practice:
+                            </b>
+
+                            <p>
+
+                                ${escapeHTML(
+                                    item.practice ||
+                                    "Practice this skill through beginner exercises and small projects."
+                                )}
+
+                            </p>
+
+                        </div>
+
+
+
+                        <div
+                            class="project-box"
+                        >
+
+                            <b>
+                                💻 Suggested Project:
+                            </b>
+
+                            <p>
+
+                                ${escapeHTML(
+                                    item.project ||
+                                    item.project_idea ||
+                                    "Build a small project using this skill."
+                                )}
+
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+                `;
+
+            }
+        );
+
+    }
+
+
+
+    /* ======================================
+       COMPLETE HTML
+    ====================================== */
+
+    results.innerHTML = `
+
+
+        <!-- ==================================
+             SCORE CARDS
+        ================================== -->
+
+        <div class="score-grid">
+
+
+            <div class="score-card">
+
+                <h2>
+                    📊 Basic Job Match
+                </h2>
+
+                <div class="score">
+
+                    ${matchScore}%
+
+                </div>
+
+                <div class="score-description">
+
+                    Percentage of required job
+                    skills detected in the resume.
+
+                </div>
+
+            </div>
+
+
+
+            <div class="score-card">
+
+                <h2>
+                    🔬 Evidence-Aware Job Fit
+                </h2>
+
+                <div class="score">
+
+                    ${evidenceScore}%
+
+                </div>
+
+                <div class="score-description">
+
+                    Job fit considering the
+                    supporting evidence behind
+                    claimed skills.
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ==================================
+             RESEARCH INSIGHT
+        ================================== -->
+
+        <div class="research-box">
+
+            <h2>
+                💡 Research Insight
+            </h2>
+
+            <p>
+
+                <strong>
+                    Basic Job Match:
+                </strong>
+
+                measures whether required
+                skills are present in the
+                resume.
+
+            </p>
+
+            <p>
+
+                <strong>
+                    Evidence-Aware Job Fit:
+                </strong>
+
+                goes further by considering
+                supporting evidence from
+                projects, certifications,
+                experience and education.
+
+            </p>
+
+            <p>
+
+                This helps distinguish between
+                simply claiming a skill and
+                demonstrating evidence for
+                that skill.
+
+            </p>
+
+            <p>
+
+                <strong>
+                    Research Principle:
+                </strong>
+
+                A candidate can mention a skill
+                without providing strong evidence
+                of practical ability. Therefore,
+                the system evaluates both
+                skill presence and supporting
+                evidence.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- ==================================
+             SKILLS DETECTED
+        ================================== -->
+
+        <div class="section">
+
+            <h2>
+                🧠 Skills Detected in Resume
+            </h2>
+
+            <div class="skill-grid">
+
+                ${resumeSkillsHTML}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================
+             MATCHED SKILLS
+        ================================== -->
+
+        <div class="section">
+
+            <h2>
+                ✅ Matched Skills
+            </h2>
+
+            <div class="skill-grid">
+
+                ${matchedSkillsHTML}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================
+             MISSING SKILLS
+        ================================== -->
+
+        <div class="section">
+
+            <h2>
+                ❌ Missing Skills
+            </h2>
+
+            <div class="skill-grid">
+
+                ${missingSkillsHTML}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================
+             SKILL GAP SUMMARY
+        ================================== -->
+
+        <div class="section">
+
+            <h2>
+                📉 Skill Gap Analysis
+            </h2>
+
+
+            <div class="gap-grid">
+
+
+                <div class="gap-card">
+
+                    <h3>
+                        📋 Required Skills
+                    </h3>
+
+                    <div class="gap-number">
+
+                        ${requiredSkills.length}
+
+                    </div>
+
+                    <div class="gap-description">
+
+                        Skills identified from
+                        the job description.
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="gap-card">
+
+                    <h3>
+                        ✅ Skill Match
+                    </h3>
+
+                    <div class="gap-number">
+
+                        ${skillMatch}%
+
+                    </div>
+
+                    <div class="gap-description">
+
+                        Percentage of required
+                        skills found in the resume.
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="gap-card">
+
+                    <h3>
+                        📉 Skill Gap
+                    </h3>
+
+                    <div class="gap-number">
+
+                        ${skillGap}%
+
+                    </div>
+
+                    <div class="gap-description">
+
+                        Percentage of required
+                        skills missing from
+                        the resume.
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <p style="margin-top:20px;">
+
+                <strong>
+                    🔍 Explanation:
+                </strong>
+
+                ${escapeHTML(
+                    data.skill_gap_explanation ||
+                    "The skill gap represents the required job skills that were not detected in the resume."
+                )}
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- ==================================
+             PRIORITIZED SKILL GAPS
+        ================================== -->
+
+        <div class="section">
+
+            <h2>
+                🎯 Prioritized Missing Skills
+            </h2>
+
+            <p>
+
+                Missing skills are prioritized
+                according to their relevance
+                to the target job.
+
+            </p>
+
+            ${prioritizedGapHTML}
+
+        </div>
+
+
+
+        <!-- ==================================
+             LEARNING ORDER
+        ================================== -->
+
+        <div class="section">
+
+            <h2>
+                🗺️ Recommended Learning Order
+            </h2>
+
+            <p>
+
+                The system suggests an order
+                for developing missing skills,
+                starting with higher-priority
+                skills.
+
+            </p>
+
+            <div class="learning-order">
+
+                ${learningOrderHTML}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================
+             HIGH PRIORITY GAPS
+        ================================== -->
+
+        ${
+            highPriorityGaps.length > 0
+
+            ?
+
+            `
+
+                <div class="section">
+
+                    <h2>
+                        🚨 High Priority Skill Gaps
+                    </h2>
+
+                    <div class="skill-grid">
+
+                        ${
+                            highPriorityGaps
+                                .map(
+                                    function(skill) {
+
+                                        return `
+
+                                            <div
+                                                class="skill missing"
+                                            >
+
+                                                🚨 ${escapeHTML(
+                                                    skill
+                                                )}
+
+                                            </div>
+
+                                        `;
+
+                                    }
+                                )
+                                .join("")
+                        }
+
+                    </div>
+
+                </div>
+
+            `
+
+            :
+
+            ""
+
+        }
+
+
+
+        <!-- ==================================
+             EVIDENCE ANALYSIS
+        ================================== -->
+
+        <div class="section">
+
+            <h2>
+                🔍 Evidence-Based Skill Analysis
+            </h2>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Skill
+                            </th>
+
+                            <th>
+                                Evidence Found
+                            </th>
+
+                            <th>
+                                Evidence Strength
+                            </th>
+
+                            <th>
+                                Score
+                            </th>
+
+                            <th>
+                                Explanation
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${evidenceRows}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================
+             JOB RELEVANCE
+        ================================== -->
+
+        <div class="section">
+
+            <h2>
+                💼 Job Relevance Analysis
+            </h2>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Skill
+                            </th>
+
+                            <th>
+                                Job Relevance
+                            </th>
+
+                            <th>
+                                Explanation
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${relevanceRows}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================
+             LEARNING RECOMMENDATIONS
+        ================================== -->
+
+        <div class="section">
+
+            <h2>
+                🎓 Personalized Learning Recommendations
+            </h2>
+
+            <p>
+
+                Based on the detected skill gaps,
+                the system recommends actual
+                learning resources, practice
+                activities and project ideas.
+
+            </p>
+
+            ${recommendationHTML}
+
+        </div>
+
+
+
+        <!-- ==================================
+             BUTTONS
+        ================================== -->
+
+        <div class="button-container">
+
+
+            <a
+                href="index.html"
+                class="button back-button"
+            >
+
+                ← Analyze Another Resume
+
+            </a>
+
+
+
+            <button
+                class="button clear-button"
+                onclick="clearResults()"
+            >
+
+                🗑 Clear Results
+
+            </button>
+
+
+        </div>
+
+
+    `;
+
+}
+
+
+
+/* ==========================================
+   SECURITY / HTML ESCAPE
+========================================== */
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+
+/* ==========================================
+   SAFE URL
+========================================== */
+
+function safeURL(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "#";
+
+    }
+
+
+    const url =
+        String(value).trim();
+
+
+    /*
+     * Only allow HTTP/HTTPS
+     * learning resource links.
+     */
+
+    if (
+        url.startsWith("https://") ||
+        url.startsWith("http://")
+    ) {
+
+        return escapeHTML(url);
+
+    }
+
+
+    return "#";
+
+}
+
+
+
+/* ==========================================
+   CLEAR RESULTS
+========================================== */
+
+function clearResults() {
+
+    localStorage.removeItem(
+        "resumeAnalysis"
+    );
+
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
