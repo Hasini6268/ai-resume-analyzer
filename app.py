@@ -35,11 +35,23 @@ def home():
 # =========================================================
 
 @app.route("/results.html")
-def results():
+def results_page():
     """
-    Serve the results page.
+    Serve the resume analysis results page.
     """
     return send_from_directory(".", "results.html")
+
+
+# =========================================================
+# RESUME BUILDER PAGE
+# =========================================================
+
+@app.route("/resume_builder.html")
+def resume_builder_page():
+    """
+    Serve the Evidence-Aware Resume Builder page.
+    """
+    return send_from_directory(".", "resume_builder.html")
 
 
 # =========================================================
@@ -80,13 +92,11 @@ def analyze():
     # -----------------------------------------------------
 
     if not resume:
-
         return jsonify({
             "error": "Please upload a resume PDF."
         }), 400
 
     if not job_description.strip():
-
         return jsonify({
             "error": "Please enter the job description."
         }), 400
@@ -100,7 +110,6 @@ def analyze():
         file_data = resume.read()
 
         if not file_data:
-
             return jsonify({
                 "error": "The uploaded PDF is empty."
             }), 400
@@ -113,13 +122,11 @@ def analyze():
         resume_text = ""
 
         for page in document:
-
             resume_text += page.get_text()
 
         document.close()
 
         if not resume_text.strip():
-
             return jsonify({
                 "error": "Could not extract text from the PDF."
             }), 400
@@ -187,7 +194,9 @@ def analyze():
         for skill in required_skills
     ]
 
-    # Remove duplicates while preserving order
+    # -----------------------------------------------------
+    # REMOVE DUPLICATES
+    # -----------------------------------------------------
 
     resume_skills = list(
         dict.fromkeys(resume_skills)
@@ -208,13 +217,15 @@ def analyze():
             resume_skills
         )
 
-        matched_skills = skill_gap_result[
-            "matched_skills"
-        ]
+        matched_skills = skill_gap_result.get(
+            "matched_skills",
+            []
+        )
 
-        missing_skills = skill_gap_result[
-            "missing_skills"
-        ]
+        missing_skills = skill_gap_result.get(
+            "missing_skills",
+            []
+        )
 
     except Exception as e:
 
@@ -244,10 +255,15 @@ def analyze():
 
     try:
 
-        # Keep the original resume text because
-        # evidence detection depends on sections,
-        # project descriptions, experience and
-        # action words.
+        # Original resume text is intentionally used here.
+        #
+        # Evidence detection depends on:
+        # - Projects
+        # - Experience
+        # - Certifications
+        # - Education
+        # - Action words
+        # - Supporting descriptions
 
         evidence_results = analyze_skill_evidence(
             resume_text,
@@ -303,13 +319,11 @@ def analyze():
     # EVIDENCE-AWARE JOB FIT
     # =====================================================
     #
-    # Research-oriented calculation:
-    #
     # Basic Job Match:
-    #     How many required skills are present?
+    #     Percentage of required skills found.
     #
     # Evidence Quality:
-    #     How strongly are matched skills supported?
+    #     Strength of supporting evidence for matched skills.
     #
     # Formula:
     #
@@ -327,8 +341,8 @@ def analyze():
     #     Evidence-Aware Fit =
     #         64 * 0.56 = approximately 36%
     #
-    # Evidence is not multiplied by relevance again because
-    # job relevance is already derived from evidence quality.
+    # Evidence is not multiplied by job relevance again,
+    # because job relevance is already derived from evidence.
     #
     # =====================================================
 
@@ -396,12 +410,21 @@ def analyze():
 
         if evidence_item:
 
-            evidence_score = float(
-                evidence_item.get(
-                    "evidence_score",
-                    0
+            try:
+
+                evidence_score = float(
+                    evidence_item.get(
+                        "evidence_score",
+                        0
+                    )
                 )
-            )
+
+            except (
+                TypeError,
+                ValueError
+            ):
+
+                evidence_score = 0
 
             matched_evidence_scores.append(
                 evidence_score
@@ -415,12 +438,21 @@ def analyze():
 
         if relevance_item:
 
-            relevance_score = float(
-                relevance_item.get(
-                    "relevance_score",
-                    0
+            try:
+
+                relevance_score = float(
+                    relevance_item.get(
+                        "relevance_score",
+                        0
+                    )
                 )
-            )
+
+            except (
+                TypeError,
+                ValueError
+            ):
+
+                relevance_score = 0
 
         # ---------------------------------------------
         # Component score
@@ -513,7 +545,9 @@ def analyze():
     # -----------------------------------------------------
 
     strong_skills = []
+
     moderate_skills = []
+
     weak_skills = []
 
     for item in evidence_results:
@@ -527,6 +561,14 @@ def analyze():
             "skill",
             ""
         )
+
+        try:
+            score = float(score)
+        except (
+            TypeError,
+            ValueError
+        ):
+            score = 0
 
         if score >= 80:
 
@@ -594,9 +636,9 @@ def analyze():
 
         })
 
-    # -----------------------------------------------------
+    # =====================================================
     # EXPLAINABLE RESEARCH INSIGHT
-    # -----------------------------------------------------
+    # =====================================================
 
     if evidence_aware_score >= 80:
 
@@ -652,9 +694,9 @@ def analyze():
 
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # FINAL JSON RESPONSE
-    # -----------------------------------------------------
+    # =====================================================
 
     return jsonify({
 

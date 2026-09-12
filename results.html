@@ -774,6 +774,38 @@
 
 
         /* ==========================================
+           RESUME BUILDER BUTTON
+        ========================================== */
+
+        .builder-button {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #11998e,
+                    #38ef7d
+                );
+
+            color: white;
+
+            box-shadow:
+                0 8px 20px
+                rgba(17,153,142,0.25);
+        }
+
+
+        .builder-button:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(17,153,142,0.35);
+        }
+
+
+        /* ==========================================
            BUTTONS
         ========================================== */
 
@@ -808,7 +840,8 @@
             text-decoration: none;
 
             transition:
-                transform 0.2s ease;
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
         }
 
 
@@ -2473,6 +2506,75 @@ function displayResults(data) {
 
 
         <!-- ==================================
+             RESUME BUILDER
+        ================================== -->
+
+        <div class="section">
+
+            <h2>
+                📝 Evidence-Aware Resume Builder
+            </h2>
+
+            <p>
+
+                Use the analysis results to create
+                or improve your resume. The builder
+                will use the skills, evidence and
+                job-related information detected
+                by this system.
+
+            </p>
+
+            <div
+                style="
+                    margin-top:20px;
+                    padding:20px;
+                    border-radius:15px;
+                    background:linear-gradient(
+                        135deg,
+                        #f0fff8,
+                        #f8fffb
+                    );
+                    border:1px solid #d7f2e5;
+                "
+            >
+
+                <strong>
+                    💡 Why use Resume Builder?
+                </strong>
+
+                <p style="margin-bottom:0;">
+
+                    Instead of creating a generic resume,
+                    the builder will use your analysis
+                    results to help improve your resume
+                    for the selected job.
+
+                </p>
+
+            </div>
+
+            <div
+                class="button-container"
+                style="margin-top:20px;"
+            >
+
+                <button
+                    class="button builder-button"
+                    onclick="openResumeBuilder()"
+                >
+
+                    📝 Build / Improve My Resume
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================
              BUTTONS
         ================================== -->
 
@@ -2504,6 +2606,19 @@ function displayResults(data) {
 
 
     `;
+
+}
+
+
+
+/* ==========================================
+   OPEN RESUME BUILDER
+========================================== */
+
+function openResumeBuilder() {
+
+    window.location.href =
+        "/resume_builder.html";
 
 }
 
