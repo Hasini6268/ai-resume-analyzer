@@ -10,14 +10,10 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        Evidence-Aware Resume Builder
-    </title>
+    <title>AI Resume Builder</title>
 
 
-    <!-- ==========================================
-         PDF LIBRARIES
-    ========================================== -->
+    <!-- PDF LIBRARIES -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -37,9 +33,7 @@
 
             padding: 30px 20px;
 
-            font-family:
-                Arial,
-                sans-serif;
+            font-family: Arial, sans-serif;
 
             background:
                 linear-gradient(
@@ -72,9 +66,7 @@
         }
 
 
-        /* ==========================================
-           HEADER
-        ========================================== */
+        /* HEADER */
 
         .header {
 
@@ -122,9 +114,56 @@
         }
 
 
-        /* ==========================================
-           INTRO BOX
-        ========================================== */
+        /* NAVIGATION */
+
+        .top-navigation {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .nav-button {
+
+            display: inline-block;
+
+            padding: 10px 16px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+        }
+
+
+        .nav-button:hover {
+
+            opacity: 0.9;
+        }
+
+
+        /* INTRO */
 
         .intro {
 
@@ -162,9 +201,7 @@
         }
 
 
-        /* ==========================================
-           FORM
-        ========================================== */
+        /* SECTIONS */
 
         .section {
 
@@ -187,6 +224,8 @@
             color: #6246ea;
         }
 
+
+        /* FORM */
 
         .form-grid {
 
@@ -234,9 +273,7 @@
 
             border: 1px solid #d8d8d8;
 
-            font-family:
-                Arial,
-                sans-serif;
+            font-family: Arial, sans-serif;
 
             font-size: 14px;
 
@@ -276,68 +313,18 @@
             font-size: 12px;
 
             color: #888;
+
+            line-height: 1.5;
         }
 
 
-        /* ==========================================
-           SKILLS
-        ========================================== */
+        /* ANALYSIS SUMMARY */
 
-        .skill-box {
+        #analysisSection {
 
-            padding: 18px;
-
-            border-radius: 12px;
-
-            background: white;
-
-            border: 1px solid #ddd;
-
-            line-height: 1.7;
-
-            color: #555;
+            display: none;
         }
 
-
-        .skill-tags {
-
-            display: flex;
-
-            flex-wrap: wrap;
-
-            gap: 8px;
-
-            margin-top: 12px;
-        }
-
-
-        .skill-tag {
-
-            padding: 7px 12px;
-
-            border-radius: 20px;
-
-            background: #eeeaff;
-
-            color: #6246ea;
-
-            font-size: 13px;
-
-            font-weight: bold;
-        }
-
-
-        .missing-tag {
-
-            background: #ffebee;
-
-            color: #c62828;
-        }
-
-
-        /* ==========================================
-           EVIDENCE
-        ========================================== */
 
         .evidence-info {
 
@@ -384,9 +371,78 @@
         }
 
 
-        /* ==========================================
-           BUTTONS
-        ========================================== */
+        /* SKILLS */
+
+        #skillsSection,
+        #missingSkillsSection {
+
+            display: none;
+        }
+
+
+        .skill-box {
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            background: white;
+
+            border: 1px solid #ddd;
+
+            line-height: 1.7;
+
+            color: #555;
+        }
+
+
+        .skill-tags {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            align-items: center;
+
+            margin-top: 12px;
+        }
+
+
+        .skill-tag {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 8px 13px;
+
+            border-radius: 20px;
+
+            background: #eeeaff;
+
+            color: #6246ea;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        .missing-tag {
+
+            background: #ffebee;
+
+            color: #c62828;
+        }
+
+
+        /* BUTTONS */
 
         .button-container {
 
@@ -443,8 +499,7 @@
 
         .generate-button:hover {
 
-            transform:
-                translateY(-2px);
+            transform: translateY(-2px);
 
             box-shadow:
                 0 12px 25px
@@ -471,25 +526,7 @@
 
         .download-button:hover {
 
-            transform:
-                translateY(-2px);
-
-            box-shadow:
-                0 12px 25px
-                rgba(221,36,118,0.35);
-        }
-
-
-        .back-button {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #667eea,
-                    #764ba2
-                );
-
-            color: white;
+            transform: translateY(-2px);
         }
 
 
@@ -501,35 +538,7 @@
         }
 
 
-        /* ==========================================
-           PDF DOWNLOAD STATUS
-        ========================================== */
-
-        #downloadStatus {
-
-            display: none;
-
-            margin-top: 15px;
-
-            padding: 12px;
-
-            border-radius: 10px;
-
-            text-align: center;
-
-            background: #e8f5e9;
-
-            color: #2e7d32;
-
-            font-weight: bold;
-
-            font-size: 14px;
-        }
-
-
-        /* ==========================================
-           RESUME PREVIEW
-        ========================================== */
+        /* PREVIEW */
 
         #resumePreview {
 
@@ -630,19 +639,47 @@
 
         .resume-skill {
 
+            display: inline-flex;
+
+            align-items: center;
+
             font-size: 14px;
 
-            padding: 4px 8px;
+            padding: 5px 10px;
 
             background: #f1f1f1;
 
             border-radius: 5px;
+
+            white-space: nowrap;
         }
 
 
-        /* ==========================================
-           RESPONSIVE
-        ========================================== */
+        /* STATUS */
+
+        #downloadStatus {
+
+            display: none;
+
+            margin-top: 15px;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            background: #e8f5e9;
+
+            color: #2e7d32;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+
+        /* RESPONSIVE */
 
         @media (max-width: 750px) {
 
@@ -654,8 +691,7 @@
 
             .form-grid {
 
-                grid-template-columns:
-                    1fr;
+                grid-template-columns: 1fr;
             }
 
 
@@ -667,15 +703,13 @@
 
             .evidence-info {
 
-                grid-template-columns:
-                    1fr;
+                grid-template-columns: 1fr;
             }
 
 
             .button-container {
 
-                flex-direction:
-                    column;
+                flex-direction: column;
             }
 
 
@@ -693,9 +727,7 @@
         }
 
 
-        /* ==========================================
-           PRINT
-        ========================================== */
+        /* PRINT */
 
         @media print {
 
@@ -721,6 +753,7 @@
             }
 
 
+            .top-navigation,
             .header,
             .intro,
             .section,
@@ -759,57 +792,74 @@
 <div class="container">
 
 
-    <!-- ==========================================
-         HEADER
-    ========================================== -->
+    <!-- NAVIGATION -->
+
+    <div class="top-navigation">
+
+        <a
+            href="/"
+            class="nav-button"
+        >
+            ← Back to Home
+        </a>
+
+
+        <a
+            href="/results.html"
+            class="nav-button"
+            id="analysisBackButton"
+            style="display:none;"
+        >
+            ← Back to Analysis
+        </a>
+
+    </div>
+
+
+    <!-- HEADER -->
 
     <div class="header">
 
         <h1>
-            📝 Evidence-Aware Resume Builder
+            📝 AI Resume Builder
         </h1>
 
         <p>
-            Build a stronger resume using your
-            AI Resume Analyzer results.
+            Create a professional, job-focused resume
+            using your own information.
         </p>
 
-        <div class="badge">
-
-            🔬 Analysis-Driven Resume Improvement
-
+        <div
+            class="badge"
+            id="builderBadge"
+        >
+            📄 Professional Resume Creation
         </div>
 
     </div>
 
 
-
-    <!-- ==========================================
-         INTRO
-    ========================================== -->
+    <!-- INTRO -->
 
     <div class="intro">
 
         <h2>
-            💡 Intelligent Resume Improvement
+            💡 Build Your Resume
         </h2>
 
-        <p>
+        <p id="introText">
 
-            This Resume Builder uses the results
-            generated by the AI Resume Analyzer.
-            It considers your detected skills,
-            matched skills, missing skills and
-            evidence strength to help create a
-            more job-focused resume.
+            Enter your genuine education, skills,
+            experience, projects and achievements.
+            The system will generate a clean
+            professional resume that you can
+            download as a PDF.
 
         </p>
 
         <p>
 
-            <strong>
-                Important:
-            </strong>
+            <strong>Important:</strong>
 
             The system does not invent qualifications.
             Add only information that is genuinely
@@ -820,16 +870,17 @@
     </div>
 
 
+    <!-- ANALYSIS SUMMARY -->
 
-    <!-- ==========================================
-         ANALYSIS SUMMARY
-    ========================================== -->
-
-    <div class="section">
+    <div
+        class="section"
+        id="analysisSection"
+    >
 
         <h2>
-            📊 Your Analysis Summary
+            📊 Your AI Analysis Summary
         </h2>
+
 
         <div class="evidence-info">
 
@@ -854,7 +905,6 @@
             </div>
 
 
-
             <div class="evidence-card">
 
                 <div>
@@ -873,7 +923,6 @@
                 </div>
 
             </div>
-
 
 
             <div class="evidence-card">
@@ -901,12 +950,12 @@
     </div>
 
 
+    <!-- DETECTED SKILLS -->
 
-    <!-- ==========================================
-         DETECTED SKILLS
-    ========================================== -->
-
-    <div class="section">
+    <div
+        class="section"
+        id="skillsSection"
+    >
 
         <h2>
             🧠 Skills Detected by AI
@@ -916,20 +965,17 @@
             class="skill-box"
             id="detectedSkills"
         >
-
-            Loading skills...
-
         </div>
 
     </div>
 
 
+    <!-- MISSING SKILLS -->
 
-    <!-- ==========================================
-         MISSING SKILLS
-    ========================================== -->
-
-    <div class="section">
+    <div
+        class="section"
+        id="missingSkillsSection"
+    >
 
         <h2>
             🎯 Job Skill Gaps
@@ -939,18 +985,12 @@
             class="skill-box"
             id="missingSkills"
         >
-
-            Loading skill gaps...
-
         </div>
 
     </div>
 
 
-
-    <!-- ==========================================
-         PERSONAL INFORMATION
-    ========================================== -->
+    <!-- PERSONAL INFORMATION -->
 
     <div class="section">
 
@@ -977,7 +1017,6 @@
             </div>
 
 
-
             <div class="form-group">
 
                 <label for="jobTitle">
@@ -991,7 +1030,6 @@
                 >
 
             </div>
-
 
 
             <div class="form-group">
@@ -1009,7 +1047,6 @@
             </div>
 
 
-
             <div class="form-group">
 
                 <label for="phone">
@@ -1025,7 +1062,6 @@
             </div>
 
 
-
             <div class="form-group">
 
                 <label for="location">
@@ -1039,7 +1075,6 @@
                 >
 
             </div>
-
 
 
             <div class="form-group">
@@ -1062,10 +1097,7 @@
     </div>
 
 
-
-    <!-- ==========================================
-         PROFESSIONAL SUMMARY
-    ========================================== -->
+    <!-- SUMMARY -->
 
     <div class="section">
 
@@ -1073,19 +1105,19 @@
             ✍️ Professional Summary
         </h2>
 
+
         <div class="form-group">
 
             <label for="summary">
-
-                Write a short professional
-                summary
-
+                Professional Summary
             </label>
+
 
             <textarea
                 id="summary"
                 placeholder="Example: CSE AI student with experience in Python, Java and SQL. Interested in developing AI-powered applications and solving real-world problems."
             ></textarea>
+
 
             <div class="hint">
 
@@ -1099,10 +1131,48 @@
     </div>
 
 
+    <!-- TECHNICAL SKILLS -->
 
-    <!-- ==========================================
-         EDUCATION
-    ========================================== -->
+    <div class="section">
+
+        <h2>
+            🛠️ Technical Skills
+        </h2>
+
+
+        <div class="form-group">
+
+            <label for="technicalSkills">
+                Technical Skills
+            </label>
+
+
+            <textarea
+                id="technicalSkills"
+                placeholder="Example:
+Python
+Java
+SQL
+HTML
+CSS
+Machine Learning"
+            ></textarea>
+
+
+            <div class="hint">
+
+                Enter only your genuine skills.
+                You can enter one skill per line or
+                separate skills with commas.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- EDUCATION -->
 
     <div class="section">
 
@@ -1110,18 +1180,18 @@
             🎓 Education
         </h2>
 
+
         <div class="form-group">
 
             <label for="education">
-
                 Education Details
-
             </label>
+
 
             <textarea
                 id="education"
                 placeholder="Example:
-B.Tech / B.Sc / BCA in Computer Science and Artificial Intelligence
+B.Tech in Computer Science and Engineering (Artificial Intelligence)
 College Name
 CGPA: 8.5
 2023 - 2027"
@@ -1132,10 +1202,7 @@ CGPA: 8.5
     </div>
 
 
-
-    <!-- ==========================================
-         EXPERIENCE
-    ========================================== -->
+    <!-- EXPERIENCE -->
 
     <div class="section">
 
@@ -1143,17 +1210,23 @@ CGPA: 8.5
             💼 Experience
         </h2>
 
+
         <div class="form-group">
 
             <label for="experience">
-
                 Internship / Work Experience
-
             </label>
+
 
             <textarea
                 id="experience"
-                placeholder="Enter internships, work experience or practical experience."
+                placeholder="Example:
+Avishkarna – Internship
+Intern | Month Year – Month Year
+
+• Gained hands-on experience in software development.
+• Developed an Event Registration System.
+• Developed Intern Connect."
             ></textarea>
 
         </div>
@@ -1161,10 +1234,7 @@ CGPA: 8.5
     </div>
 
 
-
-    <!-- ==========================================
-         PROJECTS
-    ========================================== -->
+    <!-- PROJECTS -->
 
     <div class="section">
 
@@ -1172,25 +1242,32 @@ CGPA: 8.5
             💻 Projects
         </h2>
 
+
         <div class="form-group">
 
             <label for="projects">
-
-                Projects and Achievements
-
+                Projects
             </label>
+
 
             <textarea
                 id="projects"
                 placeholder="Example:
 AI Resume Analyzer
-Developed an evidence-aware resume and job matching system using Python, NLP and Flask."
+Developing an evidence-aware resume and job matching system using Python, NLP and Flask.
+
+Intern Connect
+Developed an internship-focused platform.
+
+Event Registration System
+Developed a system for managing event registrations."
             ></textarea>
+
 
             <div class="hint">
 
                 Projects are especially useful because
-                they can provide evidence for your skills.
+                they provide evidence for your skills.
 
             </div>
 
@@ -1199,10 +1276,7 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
     </div>
 
 
-
-    <!-- ==========================================
-         CERTIFICATIONS
-    ========================================== -->
+    <!-- CERTIFICATIONS -->
 
     <div class="section">
 
@@ -1210,13 +1284,13 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
             📜 Certifications
         </h2>
 
+
         <div class="form-group">
 
             <label for="certifications">
-
                 Certifications
-
             </label>
+
 
             <textarea
                 id="certifications"
@@ -1228,10 +1302,7 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
     </div>
 
 
-
-    <!-- ==========================================
-         ACHIEVEMENTS
-    ========================================== -->
+    <!-- ACHIEVEMENTS -->
 
     <div class="section">
 
@@ -1239,13 +1310,13 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
             🏆 Achievements
         </h2>
 
+
         <div class="form-group">
 
             <label for="achievements">
-
                 Achievements / Activities
-
             </label>
+
 
             <textarea
                 id="achievements"
@@ -1257,10 +1328,7 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
     </div>
 
 
-
-    <!-- ==========================================
-         MAIN BUTTONS
-    ========================================== -->
+    <!-- MAIN BUTTONS -->
 
     <div class="button-container">
 
@@ -1273,18 +1341,6 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
             📝 Generate Resume
 
         </button>
-
-
-
-        <a
-            href="/results.html"
-            class="button back-button"
-        >
-
-            ← Back to Analysis
-
-        </a>
-
 
 
         <button
@@ -1300,10 +1356,7 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
     </div>
 
 
-
-    <!-- ==========================================
-         RESUME PREVIEW
-    ========================================== -->
+    <!-- RESUME PREVIEW -->
 
     <div id="resumePreview">
 
@@ -1326,7 +1379,6 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
         </div>
 
 
-
         <div
             class="resume-section"
             id="previewSummarySection"
@@ -1343,7 +1395,6 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
             </div>
 
         </div>
-
 
 
         <div
@@ -1364,7 +1415,6 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
         </div>
 
 
-
         <div
             class="resume-section"
             id="previewEducationSection"
@@ -1381,7 +1431,6 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
             </div>
 
         </div>
-
 
 
         <div
@@ -1402,7 +1451,6 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
         </div>
 
 
-
         <div
             class="resume-section"
             id="previewProjectsSection"
@@ -1419,7 +1467,6 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
             </div>
 
         </div>
-
 
 
         <div
@@ -1440,7 +1487,6 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
         </div>
 
 
-
         <div
             class="resume-section"
             id="previewAchievementsSection"
@@ -1459,10 +1505,7 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
         </div>
 
 
-
-        <!-- ======================================
-             PDF BUTTON
-        ====================================== -->
+        <!-- PDF BUTTONS -->
 
         <div
             class="button-container"
@@ -1491,9 +1534,7 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
         </div>
 
 
-        <div
-            id="downloadStatus"
-        >
+        <div id="downloadStatus">
 
             Preparing your PDF...
 
@@ -1506,46 +1547,88 @@ Developed an evidence-aware resume and job matching system using Python, NLP and
 </div>
 
 
-
 <script>
 
 
 /* ==========================================
-   LOAD ANALYSIS
+   BUILDER MODE
 ========================================== */
 
-const storedData =
-    localStorage.getItem(
-        "resumeAnalysis"
+
+/*
+   IMPORTANT:
+
+   Direct Builder:
+   /resume_builder.html
+
+   Analysis Builder:
+   /resume_builder.html?mode=analysis
+
+   Old localStorage data will NOT automatically
+   activate analysis mode.
+*/
+
+
+const urlParams =
+    new URLSearchParams(
+        window.location.search
     );
+
+
+const analysisMode =
+    urlParams.get("mode") === "analysis";
 
 
 let analysisData = null;
 
 
+/* ==========================================
+   LOAD ANALYSIS ONLY IN ANALYSIS MODE
+========================================== */
 
-if (storedData) {
+if (analysisMode) {
 
-    try {
-
-        analysisData =
-            JSON.parse(storedData);
-
-        loadAnalysisData();
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Unable to read analysis:",
-            error
+    const storedData =
+        localStorage.getItem(
+            "resumeAnalysis"
         );
+
+
+    if (storedData) {
+
+        try {
+
+            analysisData =
+                JSON.parse(
+                    storedData
+                );
+
+
+            if (
+                analysisData &&
+                typeof analysisData === "object"
+            ) {
+
+                loadAnalysisData();
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Unable to read analysis:",
+                error
+            );
+
+            analysisData = null;
+
+        }
 
     }
 
 }
-
 
 
 /* ==========================================
@@ -1561,41 +1644,88 @@ function loadAnalysisData() {
     }
 
 
+    /*
+       SHOW ANALYSIS-BASED UI
+    */
+
+    document.getElementById(
+        "analysisSection"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "skillsSection"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "missingSkillsSection"
+    ).style.display = "block";
+
+
+    document.getElementById(
+        "analysisBackButton"
+    ).style.display = "inline-block";
+
+
+    document.getElementById(
+        "builderBadge"
+    ).textContent =
+        "🔬 Analysis-Driven Resume Improvement";
+
+
+    document.getElementById(
+        "introText"
+    ).textContent =
+        "Your AI Resume Analyzer results are available. The builder can use your detected skills and job analysis while creating your resume.";
+
+
+    /* SCORES */
+
     const matchScore =
-        analysisData.match_score ?? 0;
+        Number(
+            analysisData.match_score ?? 0
+        );
+
 
     const evidenceScore =
-        analysisData.evidence_aware_score ?? 0;
+        Number(
+            analysisData.evidence_aware_score ?? 0
+        );
+
 
     const skillGap =
-        analysisData.skill_gap_percentage ?? 0;
+        Number(
+            analysisData.skill_gap_percentage ?? 0
+        );
 
 
     document.getElementById(
         "builderMatchScore"
     ).textContent =
-        matchScore + "%";
+        Math.round(matchScore) + "%";
 
 
     document.getElementById(
         "builderEvidenceScore"
     ).textContent =
-        evidenceScore + "%";
+        Math.round(evidenceScore) + "%";
 
 
     document.getElementById(
         "builderSkillGap"
     ).textContent =
-        skillGap + "%";
+        Math.round(skillGap) + "%";
 
 
-
-    /* ======================================
-       DETECTED SKILLS
-    ====================================== */
+    /* DETECTED SKILLS */
 
     const resumeSkills =
-        analysisData.resume_skills || [];
+        Array.isArray(
+            analysisData.resume_skills
+        )
+            ? analysisData.resume_skills
+            : [];
 
 
     let skillsHTML = "";
@@ -1604,7 +1734,7 @@ function loadAnalysisData() {
     if (resumeSkills.length === 0) {
 
         skillsHTML =
-            "<p>No skills detected.</p>";
+            "<p>No skills were detected from the analyzed resume.</p>";
 
     }
 
@@ -1613,15 +1743,10 @@ function loadAnalysisData() {
         resumeSkills.forEach(
             function(skill) {
 
-                skillsHTML += `
-
-                    <span class="skill-tag">
-
-                        ${escapeHTML(skill)}
-
-                    </span>
-
-                `;
+                skillsHTML +=
+                    '<span class="skill-tag">' +
+                    escapeHTML(skill) +
+                    '</span>';
 
             }
         );
@@ -1634,25 +1759,24 @@ function loadAnalysisData() {
     ).innerHTML = `
 
         <p>
-            Skills detected from your resume:
+            Skills detected from your analyzed resume:
         </p>
 
         <div class="skill-tags">
-
             ${skillsHTML}
-
         </div>
 
     `;
 
 
-
-    /* ======================================
-       MISSING SKILLS
-    ====================================== */
+    /* MISSING SKILLS */
 
     const missingSkills =
-        analysisData.missing_skills || [];
+        Array.isArray(
+            analysisData.missing_skills
+        )
+            ? analysisData.missing_skills
+            : [];
 
 
     let missingHTML = "";
@@ -1663,10 +1787,7 @@ function loadAnalysisData() {
         missingHTML = `
 
             <p>
-
-                🎉 No major missing skills
-                were detected.
-
+                🎉 No major missing skills were detected.
             </p>
 
         `;
@@ -1678,17 +1799,10 @@ function loadAnalysisData() {
         missingSkills.forEach(
             function(skill) {
 
-                missingHTML += `
-
-                    <span
-                        class="skill-tag missing-tag"
-                    >
-
-                        ✗ ${escapeHTML(skill)}
-
-                    </span>
-
-                `;
+                missingHTML +=
+                    '<span class="skill-tag missing-tag">✗ ' +
+                    escapeHTML(skill) +
+                    '</span>';
 
             }
         );
@@ -1701,43 +1815,47 @@ function loadAnalysisData() {
     ).innerHTML = `
 
         <p>
-
-            These required job skills were
-            not detected in the analyzed resume:
-
+            These required job skills were not
+            detected in the analyzed resume:
         </p>
 
         <div class="skill-tags">
-
             ${missingHTML}
-
         </div>
 
     `;
 
 
+    /*
+       TARGET ROLE
 
-    /* ======================================
-       AUTO-FILL TARGET JOB
-    ====================================== */
+       Do not invent a job title.
+       Only use placeholder if required skills exist.
+    */
 
     const requiredSkills =
-        analysisData.required_skills || [];
+        Array.isArray(
+            analysisData.required_skills
+        )
+            ? analysisData.required_skills
+            : [];
 
 
     if (
-        requiredSkills.length > 0
+        requiredSkills.length > 0 &&
+        !document.getElementById(
+            "jobTitle"
+        ).value
     ) {
 
         document.getElementById(
             "jobTitle"
-        ).value =
-            "Target Role";
+        ).placeholder =
+            "Enter the target job title";
 
     }
 
 }
-
 
 
 /* ==========================================
@@ -1764,6 +1882,12 @@ function generateResume() {
     }
 
 
+    const jobTitle =
+        document.getElementById(
+            "jobTitle"
+        ).value.trim();
+
+
     const email =
         document.getElementById(
             "email"
@@ -1788,15 +1912,15 @@ function generateResume() {
         ).value.trim();
 
 
-    const jobTitle =
-        document.getElementById(
-            "jobTitle"
-        ).value.trim();
-
-
     const summary =
         document.getElementById(
             "summary"
+        ).value.trim();
+
+
+    const manualSkillsText =
+        document.getElementById(
+            "technicalSkills"
         ).value.trim();
 
 
@@ -1830,10 +1954,7 @@ function generateResume() {
         ).value.trim();
 
 
-
-    /* ======================================
-       CONTACT
-    ====================================== */
+    /* CONTACT */
 
     let contactParts = [];
 
@@ -1895,10 +2016,7 @@ function generateResume() {
         contactParts.join(" | ");
 
 
-
-    /* ======================================
-       SUMMARY
-    ====================================== */
+    /* SUMMARY */
 
     setPreviewSection(
         "previewSummarySection",
@@ -1907,16 +2025,80 @@ function generateResume() {
     );
 
 
-
-    /* ======================================
+    /* ==========================================
        SKILLS
-    ====================================== */
+    ========================================== */
 
-    const skills =
+    let skills = [];
+
+
+    /*
+       ANALYSIS MODE:
+       Use AI-detected skills.
+
+       DIRECT MODE:
+       Use manually entered skills.
+    */
+
+    if (
+        analysisMode &&
         analysisData &&
-        analysisData.resume_skills
-            ? analysisData.resume_skills
-            : [];
+        Array.isArray(
+            analysisData.resume_skills
+        )
+    ) {
+
+        skills =
+            analysisData.resume_skills
+                .map(
+                    function(skill) {
+                        return String(skill).trim();
+                    }
+                )
+                .filter(
+                    function(skill) {
+                        return skill.length > 0;
+                    }
+                );
+
+    }
+
+    else {
+
+        /*
+           Convert comma/newline/semicolon
+           separated skills into individual skills.
+        */
+
+        skills =
+            manualSkillsText
+                .split(/[\n,;]+/)
+                .map(
+                    function(skill) {
+                        return skill.trim();
+                    }
+                )
+                .filter(
+                    function(skill) {
+                        return skill.length > 0;
+                    }
+                );
+
+    }
+
+
+    /*
+       Remove duplicate skills
+    */
+
+    skills =
+        [...new Set(
+            skills.map(
+                function(skill) {
+                    return skill;
+                }
+            )
+        )];
 
 
     const skillsContainer =
@@ -1925,7 +2107,8 @@ function generateResume() {
         );
 
 
-    skillsContainer.innerHTML = "";
+    skillsContainer.innerHTML =
+        "";
 
 
     if (skills.length === 0) {
@@ -1972,10 +2155,7 @@ function generateResume() {
     }
 
 
-
-    /* ======================================
-       OTHER SECTIONS
-    ====================================== */
+    /* OTHER SECTIONS */
 
     setPreviewSection(
         "previewEducationSection",
@@ -2012,10 +2192,7 @@ function generateResume() {
     );
 
 
-
-    /* ======================================
-       SHOW PREVIEW
-    ====================================== */
+    /* SHOW PREVIEW */
 
     const preview =
         document.getElementById(
@@ -2032,293 +2209,6 @@ function generateResume() {
     });
 
 }
-
-
-
-/* ==========================================
-   DOWNLOAD RESUME AS PDF
-========================================== */
-
-async function downloadResumePDF() {
-
-    const preview =
-        document.getElementById(
-            "resumePreview"
-        );
-
-
-    if (
-        preview.style.display === "none" ||
-        !preview.innerText.trim()
-    ) {
-
-        alert(
-            "Please generate your resume first."
-        );
-
-        return;
-
-    }
-
-
-    const status =
-        document.getElementById(
-            "downloadStatus"
-        );
-
-
-    try {
-
-        /* ======================================
-           SHOW STATUS
-        ====================================== */
-
-        status.style.display =
-            "block";
-
-        status.textContent =
-            "Preparing your PDF...";
-
-
-        /* ======================================
-           HIDE BUTTONS FROM PDF
-        ====================================== */
-
-        const buttons =
-            preview.querySelectorAll(
-                ".button-container"
-            );
-
-
-        buttons.forEach(
-            function(button) {
-
-                button.dataset.originalDisplay =
-                    button.style.display;
-
-                button.style.display =
-                    "none";
-
-            }
-        );
-
-
-        /* ======================================
-           CREATE CANVAS
-        ====================================== */
-
-        const canvas =
-            await html2canvas(
-                preview,
-                {
-                    scale: 2,
-
-                    useCORS: true,
-
-                    backgroundColor: "#ffffff",
-
-                    logging: false
-                }
-            );
-
-
-        /* ======================================
-           RESTORE BUTTONS
-        ====================================== */
-
-        buttons.forEach(
-            function(button) {
-
-                button.style.display =
-                    button.dataset.originalDisplay ||
-                    "";
-
-            }
-        );
-
-
-        /* ======================================
-           CREATE PDF
-        ====================================== */
-
-        const {
-            jsPDF
-        } = window.jspdf;
-
-
-        const pdf =
-            new jsPDF({
-                orientation: "portrait",
-                unit: "mm",
-                format: "a4"
-            });
-
-
-        const pdfWidth =
-            pdf.internal.pageSize.getWidth();
-
-
-        const pdfHeight =
-            pdf.internal.pageSize.getHeight();
-
-
-        const margin = 10;
-
-
-        const usableWidth =
-            pdfWidth -
-            (margin * 2);
-
-
-        const imageHeight =
-            (
-                canvas.height *
-                usableWidth
-            )
-            /
-            canvas.width;
-
-
-        /* ======================================
-           HANDLE MULTIPLE PAGES
-        ====================================== */
-
-        let heightLeft =
-            imageHeight;
-
-
-        let position =
-            margin;
-
-
-        pdf.addImage(
-            canvas.toDataURL("image/png"),
-            "PNG",
-            margin,
-            position,
-            usableWidth,
-            imageHeight
-        );
-
-
-        heightLeft -=
-            (pdfHeight - margin * 2);
-
-
-        while (
-            heightLeft > 0
-        ) {
-
-            position =
-                position -
-                (pdfHeight - margin * 2);
-
-
-            pdf.addPage();
-
-
-            pdf.addImage(
-                canvas.toDataURL("image/png"),
-                "PNG",
-                margin,
-                position,
-                usableWidth,
-                imageHeight
-            );
-
-
-            heightLeft -=
-                (pdfHeight - margin * 2);
-
-        }
-
-
-        /* ======================================
-           CREATE FILE NAME
-        ====================================== */
-
-        const name =
-            document.getElementById(
-                "fullName"
-            ).value.trim();
-
-
-        let fileName =
-            "AI_Resume";
-
-
-        if (name) {
-
-            fileName =
-                name
-                    .replace(
-                        /[^a-zA-Z0-9]/g,
-                        "_"
-                    )
-                    .replace(
-                        /_+/g,
-                        "_"
-                    );
-
-            fileName +=
-                "_Resume";
-
-        }
-
-
-        /* ======================================
-           DOWNLOAD
-        ====================================== */
-
-        pdf.save(
-            fileName + ".pdf"
-        );
-
-
-        status.textContent =
-            "✅ Resume PDF generated successfully!";
-
-
-        setTimeout(
-            function() {
-
-                status.style.display =
-                    "none";
-
-            },
-            3000
-        );
-
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "PDF generation error:",
-            error
-        );
-
-
-        status.style.display =
-            "block";
-
-
-        status.style.background =
-            "#ffebee";
-
-
-        status.style.color =
-            "#c62828";
-
-
-        status.textContent =
-            "❌ Unable to generate PDF. Please try again.";
-
-    }
-
-}
-
 
 
 /* ==========================================
@@ -2366,6 +2256,299 @@ function setPreviewSection(
 }
 
 
+/* ==========================================
+   DOWNLOAD PDF
+========================================== */
+
+async function downloadResumePDF() {
+
+
+    const preview =
+        document.getElementById(
+            "resumePreview"
+        );
+
+
+    if (
+        preview.style.display === "none" ||
+        !preview.innerText.trim()
+    ) {
+
+        alert(
+            "Please generate your resume first."
+        );
+
+        return;
+
+    }
+
+
+    const status =
+        document.getElementById(
+            "downloadStatus"
+        );
+
+
+    try {
+
+
+        status.style.display =
+            "block";
+
+
+        status.style.background =
+            "#e8f5e9";
+
+
+        status.style.color =
+            "#2e7d32";
+
+
+        status.textContent =
+            "Preparing your PDF...";
+
+
+        /* HIDE BUTTONS */
+
+        const buttons =
+            preview.querySelectorAll(
+                ".button-container"
+            );
+
+
+        buttons.forEach(
+            function(button) {
+
+                button.dataset.originalDisplay =
+                    button.style.display;
+
+                button.style.display =
+                    "none";
+
+            }
+        );
+
+
+        /* CREATE CANVAS */
+
+        const canvas =
+            await html2canvas(
+                preview,
+                {
+                    scale: 2,
+
+                    useCORS: true,
+
+                    backgroundColor:
+                        "#ffffff",
+
+                    logging: false
+                }
+            );
+
+
+        /* RESTORE BUTTONS */
+
+        buttons.forEach(
+            function(button) {
+
+                button.style.display =
+                    button.dataset.originalDisplay ||
+                    "";
+
+            }
+        );
+
+
+        /* CREATE PDF */
+
+        const {
+            jsPDF
+        } = window.jspdf;
+
+
+        const pdf =
+            new jsPDF({
+                orientation: "portrait",
+                unit: "mm",
+                format: "a4"
+            });
+
+
+        const pdfWidth =
+            pdf.internal.pageSize.getWidth();
+
+
+        const pdfHeight =
+            pdf.internal.pageSize.getHeight();
+
+
+        const margin = 10;
+
+
+        const usableWidth =
+            pdfWidth -
+            (margin * 2);
+
+
+        const pageContentHeight =
+            pdfHeight -
+            (margin * 2);
+
+
+        const imageHeight =
+            (
+                canvas.height *
+                usableWidth
+            )
+            /
+            canvas.width;
+
+
+        let heightLeft =
+            imageHeight;
+
+
+        let position =
+            margin;
+
+
+        const imageData =
+            canvas.toDataURL(
+                "image/png"
+            );
+
+
+        pdf.addImage(
+            imageData,
+            "PNG",
+            margin,
+            position,
+            usableWidth,
+            imageHeight
+        );
+
+
+        heightLeft -=
+            pageContentHeight;
+
+
+        while (
+            heightLeft > 0
+        ) {
+
+            position =
+                position -
+                pageContentHeight;
+
+
+            pdf.addPage();
+
+
+            pdf.addImage(
+                imageData,
+                "PNG",
+                margin,
+                position,
+                usableWidth,
+                imageHeight
+            );
+
+
+            heightLeft -=
+                pageContentHeight;
+
+        }
+
+
+        /* FILE NAME */
+
+        const name =
+            document.getElementById(
+                "fullName"
+            ).value.trim();
+
+
+        let fileName =
+            "AI_Resume";
+
+
+        if (name) {
+
+            fileName =
+                name
+                    .replace(
+                        /[^a-zA-Z0-9]/g,
+                        "_"
+                    )
+                    .replace(
+                        /_+/g,
+                        "_"
+                    )
+                    .replace(
+                        /^_|_$/g,
+                        ""
+                    );
+
+
+            fileName +=
+                "_Resume";
+
+        }
+
+
+        /* SAVE */
+
+        pdf.save(
+            fileName + ".pdf"
+        );
+
+
+        status.textContent =
+            "✅ Resume PDF generated successfully!";
+
+
+        setTimeout(
+            function() {
+
+                status.style.display =
+                    "none";
+
+            },
+            3000
+        );
+
+    }
+
+
+    catch (error) {
+
+
+        console.error(
+            "PDF generation error:",
+            error
+        );
+
+
+        status.style.display =
+            "block";
+
+
+        status.style.background =
+            "#ffebee";
+
+
+        status.style.color =
+            "#c62828";
+
+
+        status.textContent =
+            "❌ Unable to generate PDF. Please try again.";
+
+    }
+
+}
+
 
 /* ==========================================
    CLEAR BUILDER
@@ -2387,6 +2570,15 @@ function clearBuilder() {
 
         }
     );
+
+
+    /*
+       Do NOT reload old analysis data.
+
+       If the user is in analysis mode,
+       keep the analysis dashboard visible,
+       but clear the manually editable fields.
+    */
 
 
     const preview =
@@ -2415,7 +2607,6 @@ function clearBuilder() {
     });
 
 }
-
 
 
 /* ==========================================

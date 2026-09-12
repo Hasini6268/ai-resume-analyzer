@@ -25,9 +25,21 @@ CORS(app)
 @app.route("/")
 def home():
     """
-    Serve the main AI Resume Analyzer frontend.
+    Serve the main AI Resume System starting page.
     """
     return send_from_directory(".", "index.html")
+
+
+# =========================================================
+# RESUME ANALYZER PAGE
+# =========================================================
+
+@app.route("/resume-analyzer.html")
+def resume_analyzer_page():
+    """
+    Serve the Resume Analyzer page.
+    """
+    return send_from_directory(".", "resume-analyzer.html")
 
 
 # =========================================================
@@ -255,16 +267,6 @@ def analyze():
 
     try:
 
-        # Original resume text is intentionally used here.
-        #
-        # Evidence detection depends on:
-        # - Projects
-        # - Experience
-        # - Certifications
-        # - Education
-        # - Action words
-        # - Supporting descriptions
-
         evidence_results = analyze_skill_evidence(
             resume_text,
             resume_skills
@@ -317,33 +319,6 @@ def analyze():
 
     # =====================================================
     # EVIDENCE-AWARE JOB FIT
-    # =====================================================
-    #
-    # Basic Job Match:
-    #     Percentage of required skills found.
-    #
-    # Evidence Quality:
-    #     Strength of supporting evidence for matched skills.
-    #
-    # Formula:
-    #
-    #     Evidence Quality Factor =
-    #         Average Evidence Score / 100
-    #
-    #     Evidence-Aware Job Fit =
-    #         Basic Job Match * Evidence Quality Factor
-    #
-    # Example:
-    #
-    #     Basic Match = 64%
-    #     Average Evidence = 56%
-    #
-    #     Evidence-Aware Fit =
-    #         64 * 0.56 = approximately 36%
-    #
-    # Evidence is not multiplied by job relevance again,
-    # because job relevance is already derived from evidence.
-    #
     # =====================================================
 
     evidence_aware_components = []
