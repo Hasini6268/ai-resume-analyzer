@@ -1,11 +1,10 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import pymupdf
 
 from src.evidence_analyzer import analyze_skill_evidence
 from src.job_matcher import calculate_job_relevance
 from src.skill_extractor import extract_skills
-
 from src.text_preprocessor import preprocess_text
 from src.skill_gap import calculate_skill_gap
 from src.recommender import generate_recommendations
@@ -25,8 +24,37 @@ CORS(app)
 
 @app.route("/")
 def home():
+    """
+    Serve the main AI Resume Analyzer frontend.
+    """
+    return send_from_directory(".", "index.html")
 
-    return "AI Resume Analyzer Backend is Running!"
+
+# =========================================================
+# RESULTS PAGE
+# =========================================================
+
+@app.route("/results.html")
+def results():
+    """
+    Serve the results page.
+    """
+    return send_from_directory(".", "results.html")
+
+
+# =========================================================
+# HEALTH CHECK ROUTE
+# =========================================================
+
+@app.route("/health")
+def health():
+    """
+    Simple health-check endpoint for deployment platforms.
+    """
+    return jsonify({
+        "status": "healthy",
+        "message": "AI Resume Analyzer is running!"
+    })
 
 
 # =========================================================
@@ -216,8 +244,10 @@ def analyze():
 
     try:
 
-        # Keep original resume text because evidence
-        # detection depends on sections and action words.
+        # Keep the original resume text because
+        # evidence detection depends on sections,
+        # project descriptions, experience and
+        # action words.
 
         evidence_results = analyze_skill_evidence(
             resume_text,
@@ -275,15 +305,11 @@ def analyze():
     #
     # Research-oriented calculation:
     #
-    # Basic Job Match tells us:
-    #
+    # Basic Job Match:
     #     How many required skills are present?
     #
-    # Evidence Quality tells us:
-    #
-    #     How strongly are the matched skills supported?
-    #
-    # We combine them WITHOUT counting the same evidence twice.
+    # Evidence Quality:
+    #     How strongly are matched skills supported?
     #
     # Formula:
     #
@@ -291,7 +317,7 @@ def analyze():
     #         Average Evidence Score / 100
     #
     #     Evidence-Aware Job Fit =
-    #         Basic Job Match × Evidence Quality Factor
+    #         Basic Job Match * Evidence Quality Factor
     #
     # Example:
     #
@@ -299,8 +325,10 @@ def analyze():
     #     Average Evidence = 56%
     #
     #     Evidence-Aware Fit =
-    #         64 × 0.56
-    #         ≈ 36%
+    #         64 * 0.56 = approximately 36%
+    #
+    # Evidence is not multiplied by relevance again because
+    # job relevance is already derived from evidence quality.
     #
     # =====================================================
 
@@ -318,8 +346,9 @@ def analyze():
             (
                 item
                 for item in job_relevance
-                if str(item.get("skill", "")).lower().strip()
-                == skill
+                if str(
+                    item.get("skill", "")
+                ).lower().strip() == skill
             ),
             None
         )
@@ -332,8 +361,9 @@ def analyze():
             (
                 item
                 for item in evidence_results
-                if str(item.get("skill", "")).lower().strip()
-                == skill
+                if str(
+                    item.get("skill", "")
+                ).lower().strip() == skill
             ),
             None
         )
@@ -395,14 +425,6 @@ def analyze():
         # ---------------------------------------------
         # Component score
         # ---------------------------------------------
-        #
-        # The component represents the evidence quality
-        # of this matched skill.
-        #
-        # We DO NOT multiply evidence by relevance here
-        # because relevance is already derived from evidence.
-        #
-        # ---------------------------------------------
 
         component_score = evidence_score
 
@@ -446,10 +468,6 @@ def analyze():
 
     # -----------------------------------------------------
     # FINAL EVIDENCE-AWARE JOB FIT
-    # -----------------------------------------------------
-    #
-    # Basic Job Match × Evidence Quality Factor
-    #
     # -----------------------------------------------------
 
     evidence_aware_score = (
@@ -780,7 +798,7 @@ def analyze():
 if __name__ == "__main__":
 
     app.run(
-        host="127.0.0.1",
+        host="0.0.0.0",
         port=5000,
         debug=True
     )

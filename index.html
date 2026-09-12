@@ -555,7 +555,7 @@ async function analyzeResume() {
 
         const response =
             await fetch(
-                "http://127.0.0.1:5000/analyze",
+                "/analyze",
                 {
                     method: "POST",
                     body: formData
@@ -595,7 +595,7 @@ async function analyzeResume() {
         ---------------------------- */
 
         window.open(
-            "results.html",
+            "/results.html",
             "_blank"
         );
 
