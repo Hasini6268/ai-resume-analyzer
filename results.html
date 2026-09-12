@@ -2615,10 +2615,28 @@ function displayResults(data) {
    OPEN RESUME BUILDER
 ========================================== */
 
+/*
+ * IMPORTANT:
+ *
+ * ?mode=analysis tells resume_builder.html
+ * that this builder was opened from the
+ * Resume Analysis Results page.
+ *
+ * Therefore it will load:
+ *
+ * - Detected resume skills
+ * - Missing skills
+ * - Analysis scores
+ * - Evidence information
+ *
+ * The normal Home → Resume Builder flow
+ * remains a clean/direct builder.
+ */
+
 function openResumeBuilder() {
 
     window.location.href =
-        "/resume_builder.html";
+        "/resume_builder.html?mode=analysis";
 
 }
 
