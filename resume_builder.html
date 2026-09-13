@@ -1,2663 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>AI Resume Builder</title>
-
-
-    <!-- PDF LIBRARIES -->
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-
-        body {
-
-            margin: 0;
-
-            padding: 30px 20px;
-
-            font-family: Arial, sans-serif;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #667eea,
-                    #764ba2
-                );
-
-            min-height: 100vh;
-
-            color: #333;
-        }
-
-
-        .container {
-
-            max-width: 1200px;
-
-            margin: auto;
-
-            background: white;
-
-            padding: 35px;
-
-            border-radius: 25px;
-
-            box-shadow:
-                0 20px 50px
-                rgba(0,0,0,0.25);
-        }
-
-
-        /* HEADER */
-
-        .header {
-
-            text-align: center;
-
-            margin-bottom: 30px;
-        }
-
-
-        .header h1 {
-
-            margin: 0;
-
-            font-size: 38px;
-
-            color: #333;
-        }
-
-
-        .header p {
-
-            color: #777;
-
-            line-height: 1.6;
-        }
-
-
-        .badge {
-
-            display: inline-block;
-
-            margin-top: 10px;
-
-            padding: 8px 15px;
-
-            border-radius: 20px;
-
-            background: #eeeaff;
-
-            color: #6246ea;
-
-            font-size: 13px;
-
-            font-weight: bold;
-        }
-
-
-        /* NAVIGATION */
-
-        .top-navigation {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            margin-bottom: 25px;
-
-            gap: 10px;
-
-            flex-wrap: wrap;
-        }
-
-
-        .nav-button {
-
-            display: inline-block;
-
-            padding: 10px 16px;
-
-            border-radius: 10px;
-
-            text-decoration: none;
-
-            font-weight: bold;
-
-            font-size: 14px;
-
-            color: white;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #667eea,
-                    #764ba2
-                );
-        }
-
-
-        .nav-button:hover {
-
-            opacity: 0.9;
-        }
-
-
-        /* INTRO */
-
-        .intro {
-
-            padding: 22px;
-
-            border-radius: 18px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #f4f0ff,
-                    #faf8ff
-                );
-
-            border-left:
-                5px solid #764ba2;
-
-            margin-bottom: 30px;
-        }
-
-
-        .intro h2 {
-
-            margin-top: 0;
-
-            color: #6246ea;
-        }
-
-
-        .intro p {
-
-            line-height: 1.6;
-
-            color: #555;
-        }
-
-
-        /* SECTIONS */
-
-        .section {
-
-            margin-top: 25px;
-
-            padding: 25px;
-
-            border-radius: 18px;
-
-            background: #fafafa;
-
-            border: 1px solid #eee;
-        }
-
-
-        .section h2 {
-
-            margin-top: 0;
-
-            color: #6246ea;
-        }
-
-
-        /* FORM */
-
-        .form-grid {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 20px;
-        }
-
-
-        .form-group {
-
-            display: flex;
-
-            flex-direction: column;
-        }
-
-
-        .form-group.full {
-
-            grid-column: 1 / -1;
-        }
-
-
-        label {
-
-            font-weight: bold;
-
-            margin-bottom: 8px;
-
-            color: #444;
-        }
-
-
-        input,
-        textarea {
-
-            width: 100%;
-
-            padding: 13px;
-
-            border-radius: 10px;
-
-            border: 1px solid #d8d8d8;
-
-            font-family: Arial, sans-serif;
-
-            font-size: 14px;
-
-            outline: none;
-
-            transition:
-                border 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-
-        input:focus,
-        textarea:focus {
-
-            border-color: #667eea;
-
-            box-shadow:
-                0 0 0 3px
-                rgba(102,126,234,0.12);
-        }
-
-
-        textarea {
-
-            min-height: 130px;
-
-            resize: vertical;
-
-            line-height: 1.5;
-        }
-
-
-        .hint {
-
-            margin-top: 5px;
-
-            font-size: 12px;
-
-            color: #888;
-
-            line-height: 1.5;
-        }
-
-
-        /* ANALYSIS SUMMARY */
-
-        #analysisSection {
-
-            display: none;
-        }
-
-
-        .evidence-info {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 15px;
-        }
-
-
-        .evidence-card {
-
-            padding: 18px;
-
-            background: white;
-
-            border-radius: 12px;
-
-            border: 1px solid #eee;
-
-            text-align: center;
-        }
-
-
-        .evidence-number {
-
-            font-size: 28px;
-
-            font-weight: bold;
-
-            color: #6246ea;
-
-            margin: 8px 0;
-        }
-
-
-        .evidence-label {
-
-            font-size: 13px;
-
-            color: #777;
-        }
-
-
-        /* SKILLS */
-
-        #skillsSection,
-        #missingSkillsSection {
-
-            display: none;
-        }
-
-
-        .skill-box {
-
-            padding: 18px;
-
-            border-radius: 12px;
-
-            background: white;
-
-            border: 1px solid #ddd;
-
-            line-height: 1.7;
-
-            color: #555;
-        }
-
-
-        .skill-tags {
-
-            display: flex;
-
-            flex-wrap: wrap;
-
-            gap: 10px;
-
-            align-items: center;
-
-            margin-top: 12px;
-        }
-
-
-        .skill-tag {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            padding: 8px 13px;
-
-            border-radius: 20px;
-
-            background: #eeeaff;
-
-            color: #6246ea;
-
-            font-size: 13px;
-
-            font-weight: bold;
-
-            white-space: nowrap;
-        }
-
-
-        .missing-tag {
-
-            background: #ffebee;
-
-            color: #c62828;
-        }
-
-
-        /* BUTTONS */
-
-        .button-container {
-
-            display: flex;
-
-            gap: 15px;
-
-            margin-top: 30px;
-        }
-
-
-        .button {
-
-            flex: 1;
-
-            padding: 15px;
-
-            border: none;
-
-            border-radius: 12px;
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            text-align: center;
-
-            text-decoration: none;
-
-            transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-
-        .generate-button {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #11998e,
-                    #38ef7d
-                );
-
-            color: white;
-
-            box-shadow:
-                0 8px 20px
-                rgba(17,153,142,0.25);
-        }
-
-
-        .generate-button:hover {
-
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 12px 25px
-                rgba(17,153,142,0.35);
-        }
-
-
-        .download-button {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #ff512f,
-                    #dd2476
-                );
-
-            color: white;
-
-            box-shadow:
-                0 8px 20px
-                rgba(221,36,118,0.25);
-        }
-
-
-        .download-button:hover {
-
-            transform: translateY(-2px);
-        }
-
-
-        .clear-button {
-
-            background: #eee;
-
-            color: #555;
-        }
-
-
-        /* PREVIEW */
-
-        #resumePreview {
-
-            display: none;
-
-            margin-top: 35px;
-
-            background: white;
-
-            border:
-                1px solid #ddd;
-
-            padding: 45px;
-
-            box-shadow:
-                0 10px 30px
-                rgba(0,0,0,0.10);
-        }
-
-
-        .resume-header {
-
-            border-bottom:
-                2px solid #333;
-
-            padding-bottom: 15px;
-
-            margin-bottom: 20px;
-        }
-
-
-        .resume-name {
-
-            font-size: 32px;
-
-            font-weight: bold;
-
-            margin-bottom: 8px;
-        }
-
-
-        .resume-contact {
-
-            color: #555;
-
-            font-size: 14px;
-
-            line-height: 1.6;
-
-            word-break: break-word;
-        }
-
-
-        .resume-section {
-
-            margin-top: 22px;
-        }
-
-
-        .resume-section-title {
-
-            font-size: 17px;
-
-            font-weight: bold;
-
-            text-transform: uppercase;
-
-            border-bottom:
-                1px solid #aaa;
-
-            padding-bottom: 5px;
-
-            margin-bottom: 10px;
-        }
-
-
-        .resume-text {
-
-            white-space: pre-line;
-
-            line-height: 1.6;
-
-            font-size: 14px;
-
-            color: #333;
-        }
-
-
-        .resume-skill-list {
-
-            display: flex;
-
-            flex-wrap: wrap;
-
-            gap: 8px;
-        }
-
-
-        .resume-skill {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            font-size: 14px;
-
-            padding: 5px 10px;
-
-            background: #f1f1f1;
-
-            border-radius: 5px;
-
-            white-space: nowrap;
-        }
-
-
-        /* STATUS */
-
-        #downloadStatus {
-
-            display: none;
-
-            margin-top: 15px;
-
-            padding: 12px;
-
-            border-radius: 10px;
-
-            text-align: center;
-
-            background: #e8f5e9;
-
-            color: #2e7d32;
-
-            font-weight: bold;
-
-            font-size: 14px;
-        }
-
-
-        /* RESPONSIVE */
-
-        @media (max-width: 750px) {
-
-            .container {
-
-                padding: 22px;
-            }
-
-
-            .form-grid {
-
-                grid-template-columns: 1fr;
-            }
-
-
-            .form-group.full {
-
-                grid-column: auto;
-            }
-
-
-            .evidence-info {
-
-                grid-template-columns: 1fr;
-            }
-
-
-            .button-container {
-
-                flex-direction: column;
-            }
-
-
-            #resumePreview {
-
-                padding: 25px;
-            }
-
-
-            .header h1 {
-
-                font-size: 30px;
-            }
-
-        }
-
-
-        /* PRINT */
-
-        @media print {
-
-            body {
-
-                background: white;
-
-                padding: 0;
-
-                margin: 0;
-            }
-
-
-            .container {
-
-                max-width: none;
-
-                box-shadow: none;
-
-                border-radius: 0;
-
-                padding: 0;
-            }
-
-
-            .top-navigation,
-            .header,
-            .intro,
-            .section,
-            .button-container,
-            #downloadStatus {
-
-                display: none !important;
-            }
-
-
-            #resumePreview {
-
-                display: block !important;
-
-                border: none;
-
-                box-shadow: none;
-
-                margin: 0;
-
-                padding: 20px;
-
-                width: 100%;
-            }
-
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI Resume Builder</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;padding:25px 15px;font-family:Arial,sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);color:#333}.container{max-width:1200px;margin:auto;background:#fff;padding:30px;border-radius:22px;box-shadow:0 20px 50px #0004}.header{text-align:center}.header h1{font-size:36px;margin:5px}.header p{color:#777}.badge{display:inline-block;padding:8px 15px;border-radius:20px;background:#eeeaff;color:#6246ea;font-size:13px;font-weight:bold}.top{display:flex;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}.nav{padding:10px 16px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;text-decoration:none;border-radius:9px;font-weight:bold}.intro,.section,.templates{margin-top:22px;padding:22px;border-radius:16px;background:#fafafa;border:1px solid #eee}.intro{background:#f7f3ff;border-left:5px solid #764ba2}.section h2,.templates h2,.intro h2{margin-top:0;color:#6246ea}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.full{grid-column:1/-1}.group{display:flex;flex-direction:column}.group label{font-weight:bold;margin-bottom:7px}.group input,.group textarea{padding:12px;border:1px solid #d5d5d5;border-radius:9px;font:14px Arial}.group textarea{min-height:120px;resize:vertical;line-height:1.5}.hint{font-size:12px;color:#888;margin-top:5px}.template-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.template-card{padding:12px;background:#fff;border:2px solid #ddd;border-radius:14px;text-align:center;cursor:pointer;transition:.22s;box-shadow:0 4px 12px rgba(0,0,0,.04)}.template-card:hover{transform:translateY(-3px);border-color:#8a79ff;box-shadow:0 10px 22px rgba(98,70,234,.13)}.template-image{display:block;width:100%;height:250px;object-fit:contain;border:1px solid #ddd;border-radius:9px;background:#f7f7f7;box-shadow:0 2px 6px rgba(0,0,0,.05)}.template-card:hover .template-image{transform:scale(1.01)}.template-card:hover,.template-card.selected{border-color:#6246ea}.thumb{height:125px;padding:10px;border:1px solid #ddd;border-radius:7px;text-align:left;background:#fff}.tname{height:10px;width:60%;background:#333;margin:5px auto}.tline{height:5px;background:#ddd;margin:6px 0}.tline.s{width:60%}.ttitle{height:7px;width:38%;background:#777;margin:12px 0 6px}.template-name{font-weight:bold;margin-top:9px}.template-desc{font-size:11px;color:#888;margin-top:3px}.buttons{display:flex;gap:12px;margin-top:25px;flex-wrap:wrap}.btn{flex:1;padding:14px;border:0;border-radius:10px;color:white;font-weight:bold;font-size:15px;cursor:pointer}.generate{background:linear-gradient(135deg,#11998e,#38ef7d)}.download{background:linear-gradient(135deg,#ff512f,#dd2476)}.clear{background:#eee;color:#555}.analyze{background:#111827}.analysis{display:none}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{background:#fff;border:1px solid #eee;border-radius:10px;padding:15px;text-align:center}.num{font-size:27px;font-weight:bold;color:#6246ea;margin:7px}.skills{display:flex;flex-wrap:wrap;gap:8px}.tag{padding:7px 11px;border-radius:18px;background:#eeeaff;color:#6246ea;font-weight:bold;font-size:12px}.missing{background:#ffebee;color:#c62828}#resumePreview{display:none;margin:30px auto 0;background:white;border:1px solid #ddd;padding:45px;max-width:794px;min-height:1123px;box-shadow:0 10px 30px #0002}.resume-header{border-bottom:2px solid #333;padding-bottom:15px;margin-bottom:20px}.resume-name{font-size:32px;font-weight:bold}.resume-contact{font-size:13px;color:#555;line-height:1.7}.resume-section{margin-top:20px}.resume-section-title{font-size:16px;font-weight:bold;text-transform:uppercase;border-bottom:1px solid #aaa;padding-bottom:5px;margin-bottom:9px}.resume-text{white-space:pre-line;line-height:1.55;font-size:13px}.resume-skill-list{display:flex;flex-wrap:wrap;gap:7px}.resume-skill{padding:5px 9px;background:#f1f1f1;border-radius:4px;font-size:12px}.template-modern{border-top:8px solid #6246ea!important}.template-modern .resume-name{color:#6246ea}.template-modern .resume-header{text-align:center;border-bottom:0}.template-modern .resume-section-title{color:#6246ea;border-color:#6246ea}.template-minimal{font-family:Georgia,serif;box-shadow:none!important}.template-minimal .resume-name{font-weight:normal}.template-minimal .resume-section-title{border:0;letter-spacing:1px;font-family:Arial}.template-creative{border-left:9px solid #ff6b35!important}.template-creative .resume-header{background:#fff3ec;padding:20px;margin:-45px -45px 20px;border-bottom:3px solid #ff6b35}.template-creative .resume-name,.template-creative .resume-section-title{color:#e65324}.template-tech{border-top:9px solid #087ea4!important;background:#fbfeff!important}.template-tech .resume-name,.template-tech .resume-section-title{color:#087ea4}.template-tech .resume-skill{background:#dff5fb;color:#05627d}.template-elegant{font-family:Georgia,serif}.template-elegant .resume-header{text-align:center;border-bottom:1px solid #b88ac2}.template-elegant .resume-name,.template-elegant .resume-section-title{color:#7b4b8a}.template-fresh{border-left:8px solid #2e8b57!important}.template-fresh .resume-name,.template-fresh .resume-section-title{color:#237044}.template-executive{font-family:Georgia,serif;border-top:7px solid #222!important}.template-executive .resume-header{text-align:center;border-bottom:3px double #333}.template-executive .resume-name{letter-spacing:1px}.status{text-align:center;padding:10px;margin-top:12px;display:none;border-radius:8px}@media(max-width:1050px){.template-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.grid,.cards{grid-template-columns:1fr}.full{grid-column:auto}.template-grid{grid-template-columns:1fr}.container{padding:18px}#resumePreview{padding:25px}.buttons{flex-direction:column}}@media print{body{background:#fff;padding:0}.container{box-shadow:none;padding:0}.top,.header,.intro,.section,.templates,.buttons,.status{display:none!important}#resumePreview{display:block!important;margin:0;border:0;box-shadow:none;max-width:none;width:100%}}
+</style>
 </head>
-
-
 <body>
-
-
 <div class="container">
 
-
-    <!-- NAVIGATION -->
-
-    <div class="top-navigation">
-
-        <a
-            href="/"
-            class="nav-button"
-        >
-            ← Back to Home
-        </a>
-
-
-        <a
-            href="/results.html"
-            class="nav-button"
-            id="analysisBackButton"
-            style="display:none;"
-        >
-            ← Back to Analysis
-        </a>
-
-    </div>
-
-
-    <!-- HEADER -->
-
-    <div class="header">
-
-        <h1>
-            📝 AI Resume Builder
-        </h1>
-
-        <p>
-            Create a professional, job-focused resume
-            using your own information.
-        </p>
-
-        <div
-            class="badge"
-            id="builderBadge"
-        >
-            📄 Professional Resume Creation
-        </div>
-
-    </div>
-
-
-    <!-- INTRO -->
-
-    <div class="intro">
-
-        <h2>
-            💡 Build Your Resume
-        </h2>
-
-        <p id="introText">
-
-            Enter your genuine education, skills,
-            experience, projects and achievements.
-            The system will generate a clean
-            professional resume that you can
-            download as a PDF.
-
-        </p>
-
-        <p>
-
-            <strong>Important:</strong>
-
-            The system does not invent qualifications.
-            Add only information that is genuinely
-            true about you.
-
-        </p>
-
-    </div>
-
-
-    <!-- ANALYSIS SUMMARY -->
-
-    <div
-        class="section"
-        id="analysisSection"
-    >
-
-        <h2>
-            📊 Your AI Analysis Summary
-        </h2>
-
-
-        <div class="evidence-info">
-
-
-            <div class="evidence-card">
-
-                <div>
-                    Basic Job Match
-                </div>
-
-                <div
-                    class="evidence-number"
-                    id="builderMatchScore"
-                >
-                    0%
-                </div>
-
-                <div class="evidence-label">
-                    Required skills detected
-                </div>
-
-            </div>
-
-
-            <div class="evidence-card">
-
-                <div>
-                    Evidence-Aware Fit
-                </div>
-
-                <div
-                    class="evidence-number"
-                    id="builderEvidenceScore"
-                >
-                    0%
-                </div>
-
-                <div class="evidence-label">
-                    Confidence-adjusted job fit
-                </div>
-
-            </div>
-
-
-            <div class="evidence-card">
-
-                <div>
-                    Skill Gap
-                </div>
-
-                <div
-                    class="evidence-number"
-                    id="builderSkillGap"
-                >
-                    0%
-                </div>
-
-                <div class="evidence-label">
-                    Missing required skills
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- DETECTED SKILLS -->
-
-    <div
-        class="section"
-        id="skillsSection"
-    >
-
-        <h2>
-            🧠 Skills Detected by AI
-        </h2>
-
-        <div
-            class="skill-box"
-            id="detectedSkills"
-        >
-        </div>
-
-    </div>
-
-
-    <!-- MISSING SKILLS -->
-
-    <div
-        class="section"
-        id="missingSkillsSection"
-    >
-
-        <h2>
-            🎯 Job Skill Gaps
-        </h2>
-
-        <div
-            class="skill-box"
-            id="missingSkills"
-        >
-        </div>
-
-    </div>
-
-
-    <!-- PERSONAL INFORMATION -->
-
-    <div class="section">
-
-        <h2>
-            👤 Personal Information
-        </h2>
-
-
-        <div class="form-grid">
-
-
-            <div class="form-group">
-
-                <label for="fullName">
-                    Full Name *
-                </label>
-
-                <input
-                    type="text"
-                    id="fullName"
-                    placeholder="Enter your full name"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="jobTitle">
-                    Target Job Title
-                </label>
-
-                <input
-                    type="text"
-                    id="jobTitle"
-                    placeholder="Example: Python Developer"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="email">
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="your@email.com"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="phone">
-                    Phone
-                </label>
-
-                <input
-                    type="text"
-                    id="phone"
-                    placeholder="Your phone number"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="location">
-                    Location
-                </label>
-
-                <input
-                    type="text"
-                    id="location"
-                    placeholder="City, State"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="linkedin">
-                    LinkedIn
-                </label>
-
-                <input
-                    type="text"
-                    id="linkedin"
-                    placeholder="https://www.linkedin.com/in/your-profile/"
-                >
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- SUMMARY -->
-
-    <div class="section">
-
-        <h2>
-            ✍️ Professional Summary
-        </h2>
-
-
-        <div class="form-group">
-
-            <label for="summary">
-                Professional Summary
-            </label>
-
-
-            <textarea
-                id="summary"
-                placeholder="Example: CSE AI student with experience in Python, Java and SQL. Interested in developing AI-powered applications and solving real-world problems."
-            ></textarea>
-
-
-            <div class="hint">
-
-                Tip: Mention your education,
-                strongest skills and career goal.
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- TECHNICAL SKILLS -->
-
-    <div class="section">
-
-        <h2>
-            🛠️ Technical Skills
-        </h2>
-
-
-        <div class="form-group">
-
-            <label for="technicalSkills">
-                Technical Skills
-            </label>
-
-
-            <textarea
-                id="technicalSkills"
-                placeholder="Example:
-Python
-Java
-SQL
-HTML
-CSS
-Machine Learning"
-            ></textarea>
-
-
-            <div class="hint">
-
-                Enter only your genuine skills.
-                You can enter one skill per line or
-                separate skills with commas.
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- EDUCATION -->
-
-    <div class="section">
-
-        <h2>
-            🎓 Education
-        </h2>
-
-
-        <div class="form-group">
-
-            <label for="education">
-                Education Details
-            </label>
-
-
-            <textarea
-                id="education"
-                placeholder="Example:
-B.Tech in Computer Science and Engineering (Artificial Intelligence)
-College Name
-CGPA: 8.5
-2023 - 2027"
-            ></textarea>
-
-        </div>
-
-    </div>
-
-
-    <!-- EXPERIENCE -->
-
-    <div class="section">
-
-        <h2>
-            💼 Experience
-        </h2>
-
-
-        <div class="form-group">
-
-            <label for="experience">
-                Internship / Work Experience
-            </label>
-
-
-            <textarea
-                id="experience"
-                placeholder="Example:
-Avishkarna – Internship
-Intern | Month Year – Month Year
-
-• Gained hands-on experience in software development.
-• Developed an Event Registration System.
-• Developed Intern Connect."
-            ></textarea>
-
-        </div>
-
-    </div>
-
-
-    <!-- PROJECTS -->
-
-    <div class="section">
-
-        <h2>
-            💻 Projects
-        </h2>
-
-
-        <div class="form-group">
-
-            <label for="projects">
-                Projects
-            </label>
-
-
-            <textarea
-                id="projects"
-                placeholder="Example:
-AI Resume Analyzer
-Developing an evidence-aware resume and job matching system using Python, NLP and Flask.
-
-Intern Connect
-Developed an internship-focused platform.
-
-Event Registration System
-Developed a system for managing event registrations."
-            ></textarea>
-
-
-            <div class="hint">
-
-                Projects are especially useful because
-                they provide evidence for your skills.
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- CERTIFICATIONS -->
-
-    <div class="section">
-
-        <h2>
-            📜 Certifications
-        </h2>
-
-
-        <div class="form-group">
-
-            <label for="certifications">
-                Certifications
-            </label>
-
-
-            <textarea
-                id="certifications"
-                placeholder="Enter relevant certifications."
-            ></textarea>
-
-        </div>
-
-    </div>
-
-
-    <!-- ACHIEVEMENTS -->
-
-    <div class="section">
-
-        <h2>
-            🏆 Achievements
-        </h2>
-
-
-        <div class="form-group">
-
-            <label for="achievements">
-                Achievements / Activities
-            </label>
-
-
-            <textarea
-                id="achievements"
-                placeholder="Enter academic achievements, competitions, workshops, leadership activities, etc."
-            ></textarea>
-
-        </div>
-
-    </div>
-
-
-    <!-- MAIN BUTTONS -->
-
-    <div class="button-container">
-
-
-        <button
-            class="button generate-button"
-            onclick="generateResume()"
-        >
-
-            📝 Generate Resume
-
-        </button>
-
-
-        <button
-            class="button clear-button"
-            onclick="clearBuilder()"
-        >
-
-            🗑 Clear
-
-        </button>
-
-
-    </div>
-
-
-    <!-- RESUME PREVIEW -->
-
-    <div id="resumePreview">
-
-
-        <div class="resume-header">
-
-            <div
-                class="resume-name"
-                id="previewName"
-            >
-            </div>
-
-
-            <div
-                class="resume-contact"
-                id="previewContact"
-            >
-            </div>
-
-        </div>
-
-
-        <div
-            class="resume-section"
-            id="previewSummarySection"
-        >
-
-            <div class="resume-section-title">
-                Professional Summary
-            </div>
-
-            <div
-                class="resume-text"
-                id="previewSummary"
-            >
-            </div>
-
-        </div>
-
-
-        <div
-            class="resume-section"
-            id="previewSkillsSection"
-        >
-
-            <div class="resume-section-title">
-                Technical Skills
-            </div>
-
-            <div
-                class="resume-skill-list"
-                id="previewSkills"
-            >
-            </div>
-
-        </div>
-
-
-        <div
-            class="resume-section"
-            id="previewEducationSection"
-        >
-
-            <div class="resume-section-title">
-                Education
-            </div>
-
-            <div
-                class="resume-text"
-                id="previewEducation"
-            >
-            </div>
-
-        </div>
-
-
-        <div
-            class="resume-section"
-            id="previewExperienceSection"
-        >
-
-            <div class="resume-section-title">
-                Experience
-            </div>
-
-            <div
-                class="resume-text"
-                id="previewExperience"
-            >
-            </div>
-
-        </div>
-
-
-        <div
-            class="resume-section"
-            id="previewProjectsSection"
-        >
-
-            <div class="resume-section-title">
-                Projects
-            </div>
-
-            <div
-                class="resume-text"
-                id="previewProjects"
-            >
-            </div>
-
-        </div>
-
-
-        <div
-            class="resume-section"
-            id="previewCertificationsSection"
-        >
-
-            <div class="resume-section-title">
-                Certifications
-            </div>
-
-            <div
-                class="resume-text"
-                id="previewCertifications"
-            >
-            </div>
-
-        </div>
-
-
-        <div
-            class="resume-section"
-            id="previewAchievementsSection"
-        >
-
-            <div class="resume-section-title">
-                Achievements
-            </div>
-
-            <div
-                class="resume-text"
-                id="previewAchievements"
-            >
-            </div>
-
-        </div>
-
-
-        <!-- PDF BUTTONS -->
-
-        <div
-            class="button-container"
-            style="margin-top:30px;"
-        >
-
-            <button
-                class="button download-button"
-                onclick="downloadResumePDF()"
-            >
-
-                📥 Download Resume as PDF
-
-            </button>
-
-
-            <button
-                class="button generate-button"
-                onclick="window.print()"
-            >
-
-                🖨️ Print / Save Resume
-
-            </button>
-
-        </div>
-
-
-        <div id="downloadStatus">
-
-            Preparing your PDF...
-
-        </div>
-
-
-    </div>
-
-
+<div class="top">
+<a class="nav" href="index.html">← Home</a>
+<a class="nav" id="analysisBack" href="results.html" style="display:none">← Analysis</a>
 </div>
 
+<div class="header">
+<h1>📝 AI Resume Builder</h1>
+<p>Create a professional, job-focused resume.</p>
+<div class="badge" id="badge">📄 Professional Resume Creation</div>
+</div>
+
+<div class="intro">
+<h2>💡 Build Your Resume</h2>
+<p id="introText">Enter your genuine education, skills, experience, projects and achievements. Choose a template and generate your resume.</p>
+<p><strong>Important:</strong> Add only information that is genuinely true about you.</p>
+</div>
+
+<div class="section analysis" id="analysisSection">
+<h2>📊 AI Analysis Summary</h2>
+<div class="cards">
+<div class="card">Basic Job Match<div class="num" id="matchScore">0%</div><small>Required skills detected</small></div>
+<div class="card">Evidence-Aware Fit<div class="num" id="evidenceScore">0%</div><small>Evidence-based job fit</small></div>
+<div class="card">Skill Gap<div class="num" id="gapScore">0%</div><small>Missing required skills</small></div>
+</div>
+</div>
+
+<div class="section analysis" id="skillsSection">
+<h2>🧠 Skills Detected by AI</h2>
+<div class="skills" id="detectedSkills"></div>
+</div>
+
+<div class="section analysis" id="missingSection">
+<h2>🎯 Job Skill Gaps</h2>
+<div class="skills" id="missingSkills"></div>
+</div>
+
+<div class="templates">
+<h2>🎨 Choose Your Resume Template</h2>
+<p class="hint">Choose one of 8 professional designs.</p>
+<div class="template-grid" id="templateGrid"></div>
+</div>
+
+<div class="section">
+<h2>👤 Personal Information</h2>
+<div class="grid">
+<div class="group"><label>Full Name *</label><input id="fullName" placeholder="Your full name"></div>
+<div class="group"><label>Target Job Title</label><input id="jobTitle" placeholder="Example: Python Developer"></div>
+<div class="group"><label>Email</label><input id="email" type="email" placeholder="your@email.com"></div>
+<div class="group"><label>Phone</label><input id="phone" placeholder="+91 XXXXX XXXXX"></div>
+<div class="group"><label>Location</label><input id="location" placeholder="City, State"></div>
+<div class="group"><label>LinkedIn / Portfolio</label><input id="linkedin" placeholder="LinkedIn or portfolio URL"></div>
+</div>
+</div>
+
+<div class="section">
+<h2>🎯 Target Job Description</h2>
+<div class="group">
+<label>Job Description</label>
+<textarea id="targetJobDescription" placeholder="Paste the job description here...&#10;&#10;Example: Looking for a Software Developer with Python, Java, SQL, JavaScript and Machine Learning."></textarea>
+<div class="hint">Used for job-focused analysis and skill-gap recommendations.</div>
+</div>
+</div>
+
+<div class="section">
+<h2>✍️ Professional Summary</h2>
+<div class="group">
+<label>Summary</label>
+<textarea id="summary" placeholder="Example: CSE AI student with experience in Python, Java and SQL, interested in AI-powered applications."></textarea>
+</div>
+</div>
+
+<div class="section">
+<h2>🛠️ Technical Skills</h2>
+<div class="group">
+<label>Skills</label>
+<textarea id="technicalSkills" placeholder="Python&#10;Java&#10;SQL&#10;HTML&#10;CSS&#10;Machine Learning"></textarea>
+<div class="hint">Use one skill per line, comma, or semicolon.</div>
+</div>
+</div>
+
+<div class="section">
+<h2>🎓 Education</h2>
+<div class="group"><label>Education Details</label><textarea id="education" placeholder="B.Tech in Computer Science and Engineering (Artificial Intelligence)&#10;College Name&#10;CGPA: 8.5&#10;2023 - 2027"></textarea></div>
+</div>
+
+<div class="section">
+<h2>💼 Experience</h2>
+<div class="group"><label>Internship / Work Experience</label><textarea id="experience" placeholder="Company Name – Internship&#10;Role | Dates&#10;&#10;• Describe what you genuinely did."></textarea></div>
+</div>
+
+<div class="section">
+<h2>💻 Projects</h2>
+<div class="group"><label>Projects</label><textarea id="projects" placeholder="AI Resume Analyzer&#10;Developing an evidence-aware resume and job matching system using Python and Flask."></textarea></div>
+</div>
+
+<div class="section">
+<h2>📜 Certifications</h2>
+<div class="group"><label>Certifications</label><textarea id="certifications" placeholder="Certification name – Organization"></textarea></div>
+</div>
+
+<div class="section">
+<h2>🏆 Achievements</h2>
+<div class="group"><label>Achievements / Activities</label><textarea id="achievements" placeholder="Academic achievements, competitions, workshops, leadership activities, etc."></textarea></div>
+</div>
+
+<div class="buttons">
+<button class="btn generate" onclick="generateResume()">📝 Generate Resume</button>
+<button class="btn analyze" onclick="analyzeBuilderResume()">🔬 Analyze My Resume</button>
+<button class="btn clear" onclick="clearBuilder()">🗑 Clear</button>
+</div>
+
+<div class="status" id="status"></div>
+
+<div id="resumePreview">
+<div class="resume-header">
+<div class="resume-name" id="pName"></div>
+<div class="resume-contact" id="pContact"></div>
+</div>
+
+<div class="resume-section" id="sSummary"><div class="resume-section-title">Professional Summary</div><div class="resume-text" id="pSummary"></div></div>
+<div class="resume-section" id="sSkills"><div class="resume-section-title">Technical Skills</div><div class="resume-skill-list" id="pSkills"></div></div>
+<div class="resume-section" id="sEducation"><div class="resume-section-title">Education</div><div class="resume-text" id="pEducation"></div></div>
+<div class="resume-section" id="sExperience"><div class="resume-section-title">Experience</div><div class="resume-text" id="pExperience"></div></div>
+<div class="resume-section" id="sProjects"><div class="resume-section-title">Projects</div><div class="resume-text" id="pProjects"></div></div>
+<div class="resume-section" id="sCertifications"><div class="resume-section-title">Certifications</div><div class="resume-text" id="pCertifications"></div></div>
+<div class="resume-section" id="sAchievements"><div class="resume-section-title">Achievements</div><div class="resume-text" id="pAchievements"></div></div>
+
+<div class="buttons">
+<button class="btn download" onclick="downloadPDF()">📥 Download Resume as PDF</button>
+<button class="btn generate" onclick="window.print()">🖨️ Print / Save</button>
+</div>
+</div>
+</div>
 
 <script>
+const templates=[
+["professional","Classic","Traditional & ATS-friendly"],
+["modern","Modern","Clean contemporary style"],
+["minimal","Minimal","Simple & content-focused"],
+["creative","Creative","Stylish & expressive"],
+["tech","Tech / Developer","Perfect for IT & AI"],
+["elegant","Elegant","Polished & sophisticated"],
+["fresh","Fresh Graduate","Ideal for students"],
+["executive","Executive","Formal & leadership-focused"]
+];
+let selectedTemplate="professional";
+let analysisData=null;
 
+function resumeThumbnail(type){
+ const designs={
+  professional:{accent:"#202124",soft:"#f0f0f0",layout:"classic"},
+  modern:{accent:"#5b45e6",soft:"#eeeaff",layout:"modern"},
+  minimal:{accent:"#555",soft:"#f3f3f3",layout:"minimal"},
+  creative:{accent:"#e95b2b",soft:"#fff0e9",layout:"creative"},
+  tech:{accent:"#087f9d",soft:"#e1f5fa",layout:"tech"},
+  elegant:{accent:"#7b4b8a",soft:"#f3eaf5",layout:"elegant"},
+  fresh:{accent:"#227447",soft:"#e6f5ec",layout:"fresh"},
+  executive:{accent:"#171717",soft:"#ededed",layout:"executive"}
+ };
+ const d=designs[type];
 
-/* ==========================================
-   BUILDER MODE
-========================================== */
+ let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="390" viewBox="0 0 300 390">
+ <rect width="300" height="390" rx="5" fill="#fff"/>
+ <rect x="1" y="1" width="298" height="388" rx="5" fill="none" stroke="#d9d9d9"/>
+ `;
 
-
-/*
-   IMPORTANT:
-
-   Direct Builder:
-   /resume_builder.html
-
-   Analysis Builder:
-   /resume_builder.html?mode=analysis
-
-   Old localStorage data will NOT automatically
-   activate analysis mode.
-*/
-
-
-const urlParams =
-    new URLSearchParams(
-        window.location.search
-    );
-
-
-const analysisMode =
-    urlParams.get("mode") === "analysis";
-
-
-let analysisData = null;
-
-
-/* ==========================================
-   LOAD ANALYSIS ONLY IN ANALYSIS MODE
-========================================== */
-
-if (analysisMode) {
-
-    const storedData =
-        localStorage.getItem(
-            "resumeAnalysis"
-        );
-
-
-    if (storedData) {
-
-        try {
-
-            analysisData =
-                JSON.parse(
-                    storedData
-                );
-
-
-            if (
-                analysisData &&
-                typeof analysisData === "object"
-            ) {
-
-                loadAnalysisData();
-
-            }
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "Unable to read analysis:",
-                error
-            );
-
-            analysisData = null;
-
-        }
-
-    }
-
+ if(d.layout==="classic"){
+  svg+=`
+  <rect x="20" y="20" width="260" height="55" fill="#fff"/>
+  <text x="150" y="43" text-anchor="middle" font-family="Arial" font-size="15" font-weight="700" fill="#202124">YOUR NAME</text>
+  <text x="150" y="56" text-anchor="middle" font-family="Arial" font-size="6" fill="#666">Software Developer • City • Email • Phone</text>
+  <line x1="20" y1="69" x2="280" y2="69" stroke="#202124" stroke-width="1.5"/>
+  <text x="20" y="91" font-family="Arial" font-size="8" font-weight="700">PROFILE</text>
+  <rect x="20" y="98" width="250" height="4" rx="2" fill="#d7d7d7"/><rect x="20" y="106" width="230" height="4" rx="2" fill="#e2e2e2"/>
+  <text x="20" y="129" font-family="Arial" font-size="8" font-weight="700">EDUCATION</text>
+  <rect x="20" y="136" width="180" height="5" rx="2" fill="#555"/><rect x="20" y="145" width="235" height="4" rx="2" fill="#ddd"/>
+  <text x="20" y="169" font-family="Arial" font-size="8" font-weight="700">EXPERIENCE</text>
+  <rect x="20" y="176" width="155" height="5" rx="2" fill="#555"/><rect x="20" y="185" width="250" height="4" rx="2" fill="#ddd"/><rect x="20" y="193" width="225" height="4" rx="2" fill="#ddd"/>
+  <text x="20" y="218" font-family="Arial" font-size="8" font-weight="700">PROJECTS</text>
+  <rect x="20" y="225" width="170" height="5" rx="2" fill="#555"/><rect x="20" y="234" width="250" height="4" rx="2" fill="#ddd"/><rect x="20" y="242" width="210" height="4" rx="2" fill="#ddd"/>
+  <text x="20" y="267" font-family="Arial" font-size="8" font-weight="700">SKILLS</text>
+  <rect x="20" y="275" width="54" height="17" rx="8" fill="#eee"/><rect x="80" y="275" width="54" height="17" rx="8" fill="#eee"/><rect x="140" y="275" width="54" height="17" rx="8" fill="#eee"/>
+  <rect x="20" y="310" width="250" height="4" rx="2" fill="#ddd"/><rect x="20" y="318" width="225" height="4" rx="2" fill="#ddd"/>`;
+ } else if(d.layout==="modern"){
+  svg+=`
+  <rect x="0" y="0" width="300" height="8" fill="${d.accent}"/>
+  <text x="24" y="45" font-family="Arial" font-size="17" font-weight="700" fill="${d.accent}">YOUR NAME</text>
+  <text x="24" y="58" font-family="Arial" font-size="6" fill="#666">AI / Software Developer</text>
+  <text x="210" y="40" font-family="Arial" font-size="5.5" fill="#666">email@example.com</text><text x="210" y="50" font-family="Arial" font-size="5.5" fill="#666">+91 00000 00000</text><text x="210" y="60" font-family="Arial" font-size="5.5" fill="#666">linkedin.com/in/name</text>
+  <line x1="24" y1="72" x2="276" y2="72" stroke="${d.accent}" stroke-width="1"/>
+  <text x="24" y="91" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">SUMMARY</text>
+  <rect x="24" y="98" width="250" height="4" rx="2" fill="#ddd"/><rect x="24" y="106" width="225" height="4" rx="2" fill="#e5e5e5"/>
+  <text x="24" y="130" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">EXPERIENCE</text>
+  <rect x="24" y="138" width="150" height="5" rx="2" fill="${d.accent}" opacity=".75"/><rect x="24" y="148" width="245" height="4" rx="2" fill="#ddd"/><rect x="24" y="156" width="220" height="4" rx="2" fill="#ddd"/>
+  <text x="24" y="181" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">PROJECTS</text>
+  <rect x="24" y="189" width="165" height="5" rx="2" fill="${d.accent}" opacity=".75"/><rect x="24" y="199" width="245" height="4" rx="2" fill="#ddd"/><rect x="24" y="207" width="205" height="4" rx="2" fill="#ddd"/>
+  <text x="24" y="232" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">SKILLS</text>
+  <rect x="24" y="240" width="55" height="17" rx="8" fill="${d.soft}"/><rect x="85" y="240" width="55" height="17" rx="8" fill="${d.soft}"/><rect x="146" y="240" width="55" height="17" rx="8" fill="${d.soft}"/>
+  <text x="24" y="282" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">EDUCATION</text><rect x="24" y="290" width="180" height="5" rx="2" fill="#ddd"/><rect x="24" y="299" width="235" height="4" rx="2" fill="#e5e5e5"/>`;
+ } else if(d.layout==="minimal"){
+  svg+=`
+  <text x="24" y="48" font-family="Georgia" font-size="19" fill="#222">Your Name</text>
+  <text x="24" y="61" font-family="Arial" font-size="5.5" fill="#777">Software Developer  |  email@example.com  |  City</text>
+  <line x1="24" y1="73" x2="276" y2="73" stroke="#bbb"/>
+  <text x="24" y="95" font-family="Arial" font-size="7" letter-spacing="1.3" fill="#555">ABOUT</text>
+  <rect x="24" y="102" width="245" height="3.5" fill="#ddd"/><rect x="24" y="110" width="215" height="3.5" fill="#e5e5e5"/>
+  <text x="24" y="136" font-family="Arial" font-size="7" letter-spacing="1.3" fill="#555">EXPERIENCE</text>
+  <rect x="24" y="144" width="145" height="4" fill="#777"/><rect x="24" y="153" width="245" height="3.5" fill="#ddd"/><rect x="24" y="161" width="220" height="3.5" fill="#e5e5e5"/>
+  <text x="24" y="188" font-family="Arial" font-size="7" letter-spacing="1.3" fill="#555">EDUCATION</text><rect x="24" y="196" width="180" height="4" fill="#777"/><rect x="24" y="205" width="235" height="3.5" fill="#ddd"/>
+  <text x="24" y="232" font-family="Arial" font-size="7" letter-spacing="1.3" fill="#555">SKILLS</text><text x="24" y="246" font-family="Arial" font-size="6" fill="#555">Python  •  Java  •  SQL  •  HTML  •  Machine Learning</text>
+  <text x="24" y="277" font-family="Arial" font-size="7" letter-spacing="1.3" fill="#555">PROJECTS</text><rect x="24" y="285" width="165" height="4" fill="#777"/><rect x="24" y="294" width="245" height="3.5" fill="#ddd"/>`;
+ } else if(d.layout==="creative" || d.layout==="fresh"){
+  svg+=`
+  <rect x="0" y="0" width="82" height="390" fill="${d.accent}"/>
+  <circle cx="41" cy="43" r="20" fill="#fff" opacity=".92"/>
+  <text x="41" y="46" text-anchor="middle" font-family="Arial" font-size="7" font-weight="700" fill="${d.accent}">PHOTO</text>
+  <text x="15" y="91" font-family="Arial" font-size="6" font-weight="700" fill="#fff">CONTACT</text>
+  <rect x="15" y="99" width="50" height="3" rx="1" fill="#fff" opacity=".85"/><rect x="15" y="107" width="43" height="3" rx="1" fill="#fff" opacity=".65"/><rect x="15" y="115" width="50" height="3" rx="1" fill="#fff" opacity=".65"/>
+  <text x="15" y="145" font-family="Arial" font-size="6" font-weight="700" fill="#fff">SKILLS</text>
+  <rect x="15" y="153" width="45" height="7" rx="3" fill="#fff" opacity=".9"/><rect x="15" y="165" width="38" height="7" rx="3" fill="#fff" opacity=".8"/><rect x="15" y="177" width="48" height="7" rx="3" fill="#fff" opacity=".8"/>
+  <text x="100" y="43" font-family="Arial" font-size="17" font-weight="700" fill="${d.accent}">YOUR NAME</text>
+  <text x="100" y="56" font-family="Arial" font-size="6" fill="#666">Creative Professional • Developer</text>
+  <text x="100" y="83" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">PROFILE</text><rect x="100" y="91" width="175" height="4" rx="2" fill="#ddd"/><rect x="100" y="99" width="155" height="4" rx="2" fill="#e7e7e7"/>
+  <text x="100" y="125" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">EXPERIENCE</text><rect x="100" y="133" width="120" height="5" rx="2" fill="${d.accent}" opacity=".8"/><rect x="100" y="143" width="175" height="4" rx="2" fill="#ddd"/><rect x="100" y="151" width="150" height="4" rx="2" fill="#ddd"/>
+  <text x="100" y="177" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">PROJECTS</text><rect x="100" y="185" width="135" height="5" rx="2" fill="${d.accent}" opacity=".8"/><rect x="100" y="195" width="175" height="4" rx="2" fill="#ddd"/><rect x="100" y="203" width="155" height="4" rx="2" fill="#ddd"/>
+  <text x="100" y="229" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">EDUCATION</text><rect x="100" y="237" width="145" height="5" rx="2" fill="#888"/><rect x="100" y="247" width="175" height="4" rx="2" fill="#ddd"/>`;
+ } else if(d.layout==="tech"){
+  svg+=`
+  <rect x="0" y="0" width="300" height="11" fill="${d.accent}"/>
+  <rect x="20" y="23" width="72" height="72" rx="4" fill="${d.soft}"/><text x="56" y="62" text-anchor="middle" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">DEV</text><text x="56" y="75" text-anchor="middle" font-family="Arial" font-size="5" fill="#666">PORTFOLIO</text>
+  <text x="108" y="45" font-family="Arial" font-size="16" font-weight="700" fill="${d.accent}">YOUR NAME</text><text x="108" y="58" font-family="Arial" font-size="6" fill="#666">AI / ML • Software Developer</text><rect x="108" y="69" width="160" height="4" fill="#ddd"/><rect x="108" y="77" width="140" height="4" fill="#e5e5e5"/>
+  <text x="20" y="120" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">TECHNICAL SKILLS</text><rect x="20" y="129" width="56" height="18" rx="4" fill="${d.soft}"/><rect x="82" y="129" width="56" height="18" rx="4" fill="${d.soft}"/><rect x="144" y="129" width="56" height="18" rx="4" fill="${d.soft}"/><rect x="206" y="129" width="56" height="18" rx="4" fill="${d.soft}"/>
+  <text x="20" y="172" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">PROJECTS</text><rect x="20" y="181" width="160" height="5" rx="2" fill="${d.accent}" opacity=".8"/><rect x="20" y="191" width="255" height="4" fill="#ddd"/><rect x="20" y="199" width="230" height="4" fill="#ddd"/>
+  <text x="20" y="226" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">EXPERIENCE</text><rect x="20" y="235" width="145" height="5" rx="2" fill="${d.accent}" opacity=".8"/><rect x="20" y="245" width="255" height="4" fill="#ddd"/><rect x="20" y="253" width="220" height="4" fill="#ddd"/>
+  <text x="20" y="280" font-family="Arial" font-size="8" font-weight="700" fill="${d.accent}">EDUCATION</text><rect x="20" y="289" width="180" height="5" rx="2" fill="#777"/><rect x="20" y="299" width="245" height="4" fill="#ddd"/>`;
+ } else if(d.layout==="elegant"){
+  svg+=`
+  <text x="150" y="46" text-anchor="middle" font-family="Georgia" font-size="19" fill="${d.accent}">Your Name</text>
+  <text x="150" y="60" text-anchor="middle" font-family="Georgia" font-size="6" fill="#777">SOFTWARE DEVELOPER • CITY • EMAIL • PHONE</text>
+  <line x1="60" y1="73" x2="240" y2="73" stroke="${d.accent}"/>
+  <text x="150" y="96" text-anchor="middle" font-family="Georgia" font-size="8" font-weight="700" fill="${d.accent}">PROFILE</text><rect x="38" y="103" width="224" height="3.5" fill="#ddd"/><rect x="55" y="111" width="190" height="3.5" fill="#e5e5e5"/>
+  <text x="150" y="137" text-anchor="middle" font-family="Georgia" font-size="8" font-weight="700" fill="${d.accent}">EXPERIENCE</text><rect x="50" y="145" width="200" height="4" fill="#aaa"/><rect x="38" y="154" width="224" height="3.5" fill="#ddd"/><rect x="50" y="162" width="200" height="3.5" fill="#e5e5e5"/>
+  <text x="150" y="189" text-anchor="middle" font-family="Georgia" font-size="8" font-weight="700" fill="${d.accent}">EDUCATION</text><rect x="65" y="197" width="170" height="4" fill="#aaa"/><rect x="55" y="206" width="190" height="3.5" fill="#ddd"/>
+  <text x="150" y="231" text-anchor="middle" font-family="Georgia" font-size="8" font-weight="700" fill="${d.accent}">SKILLS</text><text x="150" y="244" text-anchor="middle" font-family="Georgia" font-size="6" fill="#666">Python  •  Java  •  SQL  •  AI  •  Machine Learning</text>`;
+ } else {
+  svg+=`
+  <rect x="0" y="0" width="300" height="10" fill="#171717"/>
+  <text x="150" y="43" text-anchor="middle" font-family="Georgia" font-size="18" font-weight="700" fill="#171717">YOUR NAME</text>
+  <text x="150" y="56" text-anchor="middle" font-family="Arial" font-size="5.5" fill="#666">SENIOR SOFTWARE PROFESSIONAL • CITY • EMAIL • PHONE</text>
+  <line x1="22" y1="69" x2="278" y2="69" stroke="#171717" stroke-width="2"/>
+  <text x="22" y="91" font-family="Georgia" font-size="8" font-weight="700">EXECUTIVE SUMMARY</text><rect x="22" y="99" width="256" height="4" fill="#ccc"/><rect x="22" y="107" width="235" height="4" fill="#ddd"/>
+  <text x="22" y="131" font-family="Georgia" font-size="8" font-weight="700">CORE COMPETENCIES</text><text x="22" y="144" font-family="Arial" font-size="6" fill="#555">Leadership  •  Strategy  •  Python  •  AI  •  Project Management</text>
+  <text x="22" y="169" font-family="Georgia" font-size="8" font-weight="700">PROFESSIONAL EXPERIENCE</text><rect x="22" y="177" width="170" height="5" fill="#444"/><rect x="22" y="187" width="256" height="4" fill="#ccc"/><rect x="22" y="195" width="238" height="4" fill="#ddd"/><rect x="22" y="203" width="220" height="4" fill="#ddd"/>
+  <text x="22" y="229" font-family="Georgia" font-size="8" font-weight="700">EDUCATION</text><rect x="22" y="237" width="180" height="5" fill="#444"/><rect x="22" y="247" width="240" height="4" fill="#ddd"/>
+  <text x="22" y="273" font-family="Georgia" font-size="8" font-weight="700">SELECTED PROJECTS</text><rect x="22" y="281" width="155" height="5" fill="#444"/><rect x="22" y="291" width="256" height="4" fill="#ccc"/>`;
+ }
+ svg+=`</svg>`;
+ return "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(svg);
 }
-
-
-/* ==========================================
-   LOAD ANALYSIS DATA
-========================================== */
-
-function loadAnalysisData() {
-
-    if (!analysisData) {
-
-        return;
-
-    }
-
-
-    /*
-       SHOW ANALYSIS-BASED UI
-    */
-
-    document.getElementById(
-        "analysisSection"
-    ).style.display = "block";
-
-
-    document.getElementById(
-        "skillsSection"
-    ).style.display = "block";
-
-
-    document.getElementById(
-        "missingSkillsSection"
-    ).style.display = "block";
-
-
-    document.getElementById(
-        "analysisBackButton"
-    ).style.display = "inline-block";
-
-
-    document.getElementById(
-        "builderBadge"
-    ).textContent =
-        "🔬 Analysis-Driven Resume Improvement";
-
-
-    document.getElementById(
-        "introText"
-    ).textContent =
-        "Your AI Resume Analyzer results are available. The builder can use your detected skills and job analysis while creating your resume.";
-
-
-    /* SCORES */
-
-    const matchScore =
-        Number(
-            analysisData.match_score ?? 0
-        );
-
-
-    const evidenceScore =
-        Number(
-            analysisData.evidence_aware_score ?? 0
-        );
-
-
-    const skillGap =
-        Number(
-            analysisData.skill_gap_percentage ?? 0
-        );
-
-
-    document.getElementById(
-        "builderMatchScore"
-    ).textContent =
-        Math.round(matchScore) + "%";
-
-
-    document.getElementById(
-        "builderEvidenceScore"
-    ).textContent =
-        Math.round(evidenceScore) + "%";
-
-
-    document.getElementById(
-        "builderSkillGap"
-    ).textContent =
-        Math.round(skillGap) + "%";
-
-
-    /* DETECTED SKILLS */
-
-    const resumeSkills =
-        Array.isArray(
-            analysisData.resume_skills
-        )
-            ? analysisData.resume_skills
-            : [];
-
-
-    let skillsHTML = "";
-
-
-    if (resumeSkills.length === 0) {
-
-        skillsHTML =
-            "<p>No skills were detected from the analyzed resume.</p>";
-
-    }
-
-    else {
-
-        resumeSkills.forEach(
-            function(skill) {
-
-                skillsHTML +=
-                    '<span class="skill-tag">' +
-                    escapeHTML(skill) +
-                    '</span>';
-
-            }
-        );
-
-    }
-
-
-    document.getElementById(
-        "detectedSkills"
-    ).innerHTML = `
-
-        <p>
-            Skills detected from your analyzed resume:
-        </p>
-
-        <div class="skill-tags">
-            ${skillsHTML}
-        </div>
-
-    `;
-
-
-    /* MISSING SKILLS */
-
-    const missingSkills =
-        Array.isArray(
-            analysisData.missing_skills
-        )
-            ? analysisData.missing_skills
-            : [];
-
-
-    let missingHTML = "";
-
-
-    if (missingSkills.length === 0) {
-
-        missingHTML = `
-
-            <p>
-                🎉 No major missing skills were detected.
-            </p>
-
-        `;
-
-    }
-
-    else {
-
-        missingSkills.forEach(
-            function(skill) {
-
-                missingHTML +=
-                    '<span class="skill-tag missing-tag">✗ ' +
-                    escapeHTML(skill) +
-                    '</span>';
-
-            }
-        );
-
-    }
-
-
-    document.getElementById(
-        "missingSkills"
-    ).innerHTML = `
-
-        <p>
-            These required job skills were not
-            detected in the analyzed resume:
-        </p>
-
-        <div class="skill-tags">
-            ${missingHTML}
-        </div>
-
-    `;
-
-
-    /*
-       TARGET ROLE
-
-       Do not invent a job title.
-       Only use placeholder if required skills exist.
-    */
-
-    const requiredSkills =
-        Array.isArray(
-            analysisData.required_skills
-        )
-            ? analysisData.required_skills
-            : [];
-
-
-    if (
-        requiredSkills.length > 0 &&
-        !document.getElementById(
-            "jobTitle"
-        ).value
-    ) {
-
-        document.getElementById(
-            "jobTitle"
-        ).placeholder =
-            "Enter the target job title";
-
-    }
-
+function makeTemplates(){
+ const grid=document.getElementById("templateGrid");
+ grid.innerHTML="";
+ templates.forEach((t,i)=>{
+  const c=document.createElement("div");
+  c.className="template-card"+(i===0?" selected":"");
+  c.dataset.template=t[0];
+  c.onclick=()=>selectTemplate(t[0]);
+  c.innerHTML=`
+   <img class="template-image" src="${resumeThumbnail(t[0])}" alt="${t[1]} resume template preview">
+   <div class="template-name">${t[1]}</div>
+   <div class="template-desc">${t[2]}</div>
+   <div class="template-desc" id="r-${t[0]}">${i===0?"✓ Selected":"Select"}</div>`;
+  grid.appendChild(c);
+ });
 }
-
-
-/* ==========================================
-   GENERATE RESUME
-========================================== */
-
-function generateResume() {
-
-
-    const fullName =
-        document.getElementById(
-            "fullName"
-        ).value.trim();
-
-
-    if (!fullName) {
-
-        alert(
-            "Please enter your full name."
-        );
-
-        return;
-
-    }
-
-
-    const jobTitle =
-        document.getElementById(
-            "jobTitle"
-        ).value.trim();
-
-
-    const email =
-        document.getElementById(
-            "email"
-        ).value.trim();
-
-
-    const phone =
-        document.getElementById(
-            "phone"
-        ).value.trim();
-
-
-    const location =
-        document.getElementById(
-            "location"
-        ).value.trim();
-
-
-    const linkedin =
-        document.getElementById(
-            "linkedin"
-        ).value.trim();
-
-
-    const summary =
-        document.getElementById(
-            "summary"
-        ).value.trim();
-
-
-    const manualSkillsText =
-        document.getElementById(
-            "technicalSkills"
-        ).value.trim();
-
-
-    const education =
-        document.getElementById(
-            "education"
-        ).value.trim();
-
-
-    const experience =
-        document.getElementById(
-            "experience"
-        ).value.trim();
-
-
-    const projects =
-        document.getElementById(
-            "projects"
-        ).value.trim();
-
-
-    const certifications =
-        document.getElementById(
-            "certifications"
-        ).value.trim();
-
-
-    const achievements =
-        document.getElementById(
-            "achievements"
-        ).value.trim();
-
-
-    /* CONTACT */
-
-    let contactParts = [];
-
-
-    if (jobTitle) {
-
-        contactParts.push(
-            jobTitle
-        );
-
-    }
-
-
-    if (email) {
-
-        contactParts.push(
-            email
-        );
-
-    }
-
-
-    if (phone) {
-
-        contactParts.push(
-            phone
-        );
-
-    }
-
-
-    if (location) {
-
-        contactParts.push(
-            location
-        );
-
-    }
-
-
-    if (linkedin) {
-
-        contactParts.push(
-            linkedin
-        );
-
-    }
-
-
-    document.getElementById(
-        "previewName"
-    ).textContent =
-        fullName;
-
-
-    document.getElementById(
-        "previewContact"
-    ).textContent =
-        contactParts.join(" | ");
-
-
-    /* SUMMARY */
-
-    setPreviewSection(
-        "previewSummarySection",
-        "previewSummary",
-        summary
-    );
-
-
-    /* ==========================================
-       SKILLS
-    ========================================== */
-
-    let skills = [];
-
-
-    /*
-       ANALYSIS MODE:
-       Use AI-detected skills.
-
-       DIRECT MODE:
-       Use manually entered skills.
-    */
-
-    if (
-        analysisMode &&
-        analysisData &&
-        Array.isArray(
-            analysisData.resume_skills
-        )
-    ) {
-
-        skills =
-            analysisData.resume_skills
-                .map(
-                    function(skill) {
-                        return String(skill).trim();
-                    }
-                )
-                .filter(
-                    function(skill) {
-                        return skill.length > 0;
-                    }
-                );
-
-    }
-
-    else {
-
-        /*
-           Convert comma/newline/semicolon
-           separated skills into individual skills.
-        */
-
-        skills =
-            manualSkillsText
-                .split(/[\n,;]+/)
-                .map(
-                    function(skill) {
-                        return skill.trim();
-                    }
-                )
-                .filter(
-                    function(skill) {
-                        return skill.length > 0;
-                    }
-                );
-
-    }
-
-
-    /*
-       Remove duplicate skills
-    */
-
-    skills =
-        [...new Set(
-            skills.map(
-                function(skill) {
-                    return skill;
-                }
-            )
-        )];
-
-
-    const skillsContainer =
-        document.getElementById(
-            "previewSkills"
-        );
-
-
-    skillsContainer.innerHTML =
-        "";
-
-
-    if (skills.length === 0) {
-
-        document.getElementById(
-            "previewSkillsSection"
-        ).style.display =
-            "none";
-
-    }
-
-    else {
-
-        document.getElementById(
-            "previewSkillsSection"
-        ).style.display =
-            "block";
-
-
-        skills.forEach(
-            function(skill) {
-
-                const span =
-                    document.createElement(
-                        "span"
-                    );
-
-
-                span.className =
-                    "resume-skill";
-
-
-                span.textContent =
-                    skill;
-
-
-                skillsContainer.appendChild(
-                    span
-                );
-
-            }
-        );
-
-    }
-
-
-    /* OTHER SECTIONS */
-
-    setPreviewSection(
-        "previewEducationSection",
-        "previewEducation",
-        education
-    );
-
-
-    setPreviewSection(
-        "previewExperienceSection",
-        "previewExperience",
-        experience
-    );
-
-
-    setPreviewSection(
-        "previewProjectsSection",
-        "previewProjects",
-        projects
-    );
-
-
-    setPreviewSection(
-        "previewCertificationsSection",
-        "previewCertifications",
-        certifications
-    );
-
-
-    setPreviewSection(
-        "previewAchievementsSection",
-        "previewAchievements",
-        achievements
-    );
-
-
-    /* SHOW PREVIEW */
-
-    const preview =
-        document.getElementById(
-            "resumePreview"
-        );
-
-
-    preview.style.display =
-        "block";
-
-
-    preview.scrollIntoView({
-        behavior: "smooth"
-    });
-
+function selectTemplate(name){
+ selectedTemplate=name;
+ document.querySelectorAll(".template-card").forEach(c=>{
+  const yes=c.dataset.template===name;
+  c.classList.toggle("selected",yes);
+  const r=document.getElementById("r-"+c.dataset.template);
+  if(r)r.textContent=yes?"✓ Selected":"Select";
+ });
+ const p=document.getElementById("resumePreview");
+ if(p.style.display!=="none") applyTemplate(p);
 }
-
-
-/* ==========================================
-   PREVIEW SECTION HELPER
-========================================== */
-
-function setPreviewSection(
-    sectionId,
-    contentId,
-    value
-) {
-
-    const section =
-        document.getElementById(
-            sectionId
-        );
-
-
-    const content =
-        document.getElementById(
-            contentId
-        );
-
-
-    if (!value) {
-
-        section.style.display =
-            "none";
-
-        content.textContent =
-            "";
-
-        return;
-
-    }
-
-
-    section.style.display =
-        "block";
-
-
-    content.textContent =
-        value;
-
+function applyTemplate(p){
+ p.className="";
+ p.classList.add("template-"+selectedTemplate);
 }
-
-
-/* ==========================================
-   DOWNLOAD PDF
-========================================== */
-
-async function downloadResumePDF() {
-
-
-    const preview =
-        document.getElementById(
-            "resumePreview"
-        );
-
-
-    if (
-        preview.style.display === "none" ||
-        !preview.innerText.trim()
-    ) {
-
-        alert(
-            "Please generate your resume first."
-        );
-
-        return;
-
-    }
-
-
-    const status =
-        document.getElementById(
-            "downloadStatus"
-        );
-
-
-    try {
-
-
-        status.style.display =
-            "block";
-
-
-        status.style.background =
-            "#e8f5e9";
-
-
-        status.style.color =
-            "#2e7d32";
-
-
-        status.textContent =
-            "Preparing your PDF...";
-
-
-        /* HIDE BUTTONS */
-
-        const buttons =
-            preview.querySelectorAll(
-                ".button-container"
-            );
-
-
-        buttons.forEach(
-            function(button) {
-
-                button.dataset.originalDisplay =
-                    button.style.display;
-
-                button.style.display =
-                    "none";
-
-            }
-        );
-
-
-        /* CREATE CANVAS */
-
-        const canvas =
-            await html2canvas(
-                preview,
-                {
-                    scale: 2,
-
-                    useCORS: true,
-
-                    backgroundColor:
-                        "#ffffff",
-
-                    logging: false
-                }
-            );
-
-
-        /* RESTORE BUTTONS */
-
-        buttons.forEach(
-            function(button) {
-
-                button.style.display =
-                    button.dataset.originalDisplay ||
-                    "";
-
-            }
-        );
-
-
-        /* CREATE PDF */
-
-        const {
-            jsPDF
-        } = window.jspdf;
-
-
-        const pdf =
-            new jsPDF({
-                orientation: "portrait",
-                unit: "mm",
-                format: "a4"
-            });
-
-
-        const pdfWidth =
-            pdf.internal.pageSize.getWidth();
-
-
-        const pdfHeight =
-            pdf.internal.pageSize.getHeight();
-
-
-        const margin = 10;
-
-
-        const usableWidth =
-            pdfWidth -
-            (margin * 2);
-
-
-        const pageContentHeight =
-            pdfHeight -
-            (margin * 2);
-
-
-        const imageHeight =
-            (
-                canvas.height *
-                usableWidth
-            )
-            /
-            canvas.width;
-
-
-        let heightLeft =
-            imageHeight;
-
-
-        let position =
-            margin;
-
-
-        const imageData =
-            canvas.toDataURL(
-                "image/png"
-            );
-
-
-        pdf.addImage(
-            imageData,
-            "PNG",
-            margin,
-            position,
-            usableWidth,
-            imageHeight
-        );
-
-
-        heightLeft -=
-            pageContentHeight;
-
-
-        while (
-            heightLeft > 0
-        ) {
-
-            position =
-                position -
-                pageContentHeight;
-
-
-            pdf.addPage();
-
-
-            pdf.addImage(
-                imageData,
-                "PNG",
-                margin,
-                position,
-                usableWidth,
-                imageHeight
-            );
-
-
-            heightLeft -=
-                pageContentHeight;
-
-        }
-
-
-        /* FILE NAME */
-
-        const name =
-            document.getElementById(
-                "fullName"
-            ).value.trim();
-
-
-        let fileName =
-            "AI_Resume";
-
-
-        if (name) {
-
-            fileName =
-                name
-                    .replace(
-                        /[^a-zA-Z0-9]/g,
-                        "_"
-                    )
-                    .replace(
-                        /_+/g,
-                        "_"
-                    )
-                    .replace(
-                        /^_|_$/g,
-                        ""
-                    );
-
-
-            fileName +=
-                "_Resume";
-
-        }
-
-
-        /* SAVE */
-
-        pdf.save(
-            fileName + ".pdf"
-        );
-
-
-        status.textContent =
-            "✅ Resume PDF generated successfully!";
-
-
-        setTimeout(
-            function() {
-
-                status.style.display =
-                    "none";
-
-            },
-            3000
-        );
-
-    }
-
-
-    catch (error) {
-
-
-        console.error(
-            "PDF generation error:",
-            error
-        );
-
-
-        status.style.display =
-            "block";
-
-
-        status.style.background =
-            "#ffebee";
-
-
-        status.style.color =
-            "#c62828";
-
-
-        status.textContent =
-            "❌ Unable to generate PDF. Please try again.";
-
-    }
-
+function val(id){return document.getElementById(id).value.trim()}
+function section(id,content){
+ const s=document.getElementById(id);
+ document.getElementById(content).textContent=arguments[2]||"";
+ s.style.display=arguments[2]?"block":"none";
 }
-
-
-/* ==========================================
-   CLEAR BUILDER
-========================================== */
-
-function clearBuilder() {
-
-
-    const inputs =
-        document.querySelectorAll(
-            "input, textarea"
-        );
-
-
-    inputs.forEach(
-        function(input) {
-
-            input.value = "";
-
-        }
-    );
-
-
-    /*
-       Do NOT reload old analysis data.
-
-       If the user is in analysis mode,
-       keep the analysis dashboard visible,
-       but clear the manually editable fields.
-    */
-
-
-    const preview =
-        document.getElementById(
-            "resumePreview"
-        );
-
-
-    preview.style.display =
-        "none";
-
-
-    const status =
-        document.getElementById(
-            "downloadStatus"
-        );
-
-
-    status.style.display =
-        "none";
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
+function generateResume(){
+ const name=val("fullName");
+ if(!name){alert("Please enter your full name.");return}
+ document.getElementById("pName").textContent=name;
+ const contact=[val("jobTitle"),val("email"),val("phone"),val("location"),val("linkedin")].filter(Boolean);
+ document.getElementById("pContact").textContent=contact.join(" | ");
+ section("sSummary","pSummary",val("summary"));
+ section("sEducation","pEducation",val("education"));
+ section("sExperience","pExperience",val("experience"));
+ section("sProjects","pProjects",val("projects"));
+ section("sCertifications","pCertifications",val("certifications"));
+ section("sAchievements","pAchievements",val("achievements"));
+ let skills;
+ if(analysisData && Array.isArray(analysisData.resume_skills)) skills=analysisData.resume_skills;
+ else skills=val("technicalSkills").split(/[\n,;]+/).map(x=>x.trim()).filter(Boolean);
+ skills=[...new Set(skills)];
+ const box=document.getElementById("pSkills");
+ box.innerHTML="";
+ document.getElementById("sSkills").style.display=skills.length?"block":"none";
+ skills.forEach(x=>{const s=document.createElement("span");s.className="resume-skill";s.textContent=x;box.appendChild(s)});
+ const p=document.getElementById("resumePreview");
+ applyTemplate(p);p.style.display="block";p.scrollIntoView({behavior:"smooth"});
 }
-
-
-/* ==========================================
-   HTML ESCAPE
-========================================== */
-
-function escapeHTML(value) {
-
-    if (
-        value === null ||
-        value === undefined
-    ) {
-
-        return "";
-
-    }
-
-
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
+async function downloadPDF(){
+ const p=document.getElementById("resumePreview");
+ if(p.style.display==="none"){alert("Generate your resume first.");return}
+ const buttons=p.querySelectorAll(".buttons");buttons.forEach(x=>x.style.display="none");
+ const oldWidth=p.style.width;p.style.width="794px";
+ try{
+  const canvas=await html2canvas(p,{scale:2,useCORS:true,backgroundColor:"#fff"});
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF("p","mm","a4");
+  const w=190,h=canvas.height*w/canvas.width;
+  const pageH=277;
+  const img=canvas.toDataURL("image/png");
+  let left=h,pos=10;
+  pdf.addImage(img,"PNG",10,pos,w,h);left-=pageH;
+  while(left>0){pos-=pageH;pdf.addPage();pdf.addImage(img,"PNG",10,pos,w,h);left-=pageH}
+  let name=val("fullName").replace(/[^a-z0-9]/gi,"_")||"AI_Resume";
+  pdf.save(name+"_Resume.pdf");
+  showStatus("✅ Resume PDF generated successfully!","#e8f5e9","#2e7d32");
+ }catch(e){console.error(e);showStatus("❌ PDF generation failed.","#ffebee","#c62828")}
+ finally{buttons.forEach(x=>x.style.display="flex");p.style.width=oldWidth}
 }
-
-
+function showStatus(text,bg,color){
+ const s=document.getElementById("status");s.textContent=text;s.style.display="block";s.style.background=bg;s.style.color=color;
+ setTimeout(()=>s.style.display="none",3000);
+}
+function clearBuilder(){
+ document.querySelectorAll("input,textarea").forEach(x=>x.value="");
+ document.getElementById("resumePreview").style.display="none";
+ if(!analysisData){
+  document.querySelectorAll(".analysis").forEach(x=>x.style.display="none");
+ }
+ selectTemplate("professional");
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+async function analyzeBuilderResume(){
+ const job=val("targetJobDescription");
+ const text=[
+  val("summary"),val("technicalSkills"),val("education"),
+  val("experience"),val("projects"),val("certifications"),
+  val("achievements")
+ ].filter(Boolean).join("\n");
+ if(!text){alert("Please enter some resume information first.");return}
+ if(!job){alert("Please enter a target job description first.");return}
+ showStatus("🔬 Sending resume information to AI Analyzer...","#eeeaff","#6246ea");
+ try{
+  const fd=new FormData();
+  const blob=new Blob([text],{type:"text/plain"});
+  fd.append("resume",blob,"resume.txt");
+  fd.append("job_description",job);
+  const response=await fetch("http://127.0.0.1:5000/analyze",{method:"POST",body:fd});
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.error||"Analysis failed");
+  localStorage.setItem("resumeAnalysis",JSON.stringify(data));
+  window.open("results.html","_blank");
+ }catch(e){
+  console.error(e);
+  showStatus("❌ Analyzer connection failed. Make sure Flask is running on port 5000.","#ffebee","#c62828");
+ }
+}
+function loadAnalysis(){
+ const params=new URLSearchParams(location.search);
+ if(params.get("mode")!=="analysis")return;
+ try{analysisData=JSON.parse(localStorage.getItem("resumeAnalysis")||"null")}catch(e){analysisData=null}
+ if(!analysisData)return;
+ document.getElementById("analysisSection").style.display="block";
+ document.getElementById("skillsSection").style.display="block";
+ document.getElementById("missingSection").style.display="block";
+ document.getElementById("analysisBack").style.display="inline-block";
+ document.getElementById("badge").textContent="🔬 Analysis-Driven Resume Improvement";
+ document.getElementById("matchScore").textContent=Math.round(Number(analysisData.match_score||0))+"%";
+ document.getElementById("evidenceScore").textContent=Math.round(Number(analysisData.evidence_aware_score||0))+"%";
+ const req=Array.isArray(analysisData.required_skills)?analysisData.required_skills:[];
+ const miss=Array.isArray(analysisData.missing_skills)?analysisData.missing_skills:[];
+ const gap=req.length?Math.round(miss.length/req.length*100):0;
+ document.getElementById("gapScore").textContent=gap+"%";
+ document.getElementById("detectedSkills").innerHTML=(analysisData.resume_skills||[]).map(x=>`<span class="tag">${escapeHTML(x)}</span>`).join("")||"No skills detected.";
+ document.getElementById("missingSkills").innerHTML=miss.map(x=>`<span class="tag missing">✗ ${escapeHTML(x)}</span>`).join("")||"🎉 No major skill gaps detected.";
+}
+function escapeHTML(x){
+ return String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+makeTemplates();
+loadAnalysis();
 </script>
-
-
 </body>
-
 </html>
