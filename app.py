@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import pymupdf
+import os
 
 from src.evidence_analyzer import analyze_skill_evidence
 from src.job_matcher import calculate_job_relevance
@@ -105,7 +106,7 @@ def analyze():
 
     if not resume:
         return jsonify({
-            "error": "Please upload a resume PDF."
+            "error": "Please upload a resume PDF or provide resume information."
         }), 400
 
     if not job_description.strip():
@@ -114,7 +115,11 @@ def analyze():
         }), 400
 
     # -----------------------------------------------------
-    # READ RESUME PDF
+    # READ RESUME
+    #
+    # Supports:
+    # 1. PDF from Resume Analyzer
+    # 2. TXT from Resume Builder
     # -----------------------------------------------------
 
     try:
@@ -123,36 +128,98 @@ def analyze():
 
         if not file_data:
             return jsonify({
-                "error": "The uploaded PDF is empty."
+                "error": "The uploaded resume file is empty."
             }), 400
 
-        document = pymupdf.open(
-            stream=file_data,
-            filetype="pdf"
-        )
+        filename = (
+            resume.filename or ""
+        ).lower().strip()
 
-        resume_text = ""
+        # =================================================
+        # PDF RESUME
+        # =================================================
 
-        for page in document:
-            resume_text += page.get_text()
+        if filename.endswith(".pdf"):
 
-        document.close()
+            document = pymupdf.open(
+                stream=file_data,
+                filetype="pdf"
+            )
+
+            resume_text = ""
+
+            for page in document:
+                resume_text += page.get_text()
+
+            document.close()
+
+        # =================================================
+        # TEXT RESUME
+        # =================================================
+
+        elif (
+            filename.endswith(".txt")
+            or filename.endswith(".text")
+        ):
+
+            resume_text = file_data.decode(
+                "utf-8",
+                errors="ignore"
+            )
+
+        # =================================================
+        # UNKNOWN FILE TYPE
+        # =================================================
+
+        else:
+
+            # ---------------------------------------------
+            # Resume Builder sends plain text.
+            # Some browsers may not preserve the extension
+            # correctly, so if the MIME type indicates text,
+            # accept it as text.
+            # ---------------------------------------------
+
+            content_type = (
+                resume.content_type or ""
+            ).lower()
+
+            if content_type.startswith("text/"):
+
+                resume_text = file_data.decode(
+                    "utf-8",
+                    errors="ignore"
+                )
+
+            else:
+
+                return jsonify({
+                    "error":
+                        "Unsupported resume format. "
+                        "Please upload a PDF or use the Resume Builder."
+                }), 400
+
+        # -------------------------------------------------
+        # CHECK EXTRACTED TEXT
+        # -------------------------------------------------
 
         if not resume_text.strip():
+
             return jsonify({
-                "error": "Could not extract text from the PDF."
+                "error":
+                    "Could not extract readable text from the resume."
             }), 400
 
     except Exception as e:
 
         return jsonify({
-            "error": "Could not read the PDF.",
+            "error": "Could not read the resume file.",
             "details": str(e)
         }), 400
 
-    # -----------------------------------------------------
+    # =====================================================
     # TEXT PREPROCESSING
-    # -----------------------------------------------------
+    # =====================================================
 
     try:
 
@@ -171,9 +238,9 @@ def analyze():
             "details": str(e)
         }), 500
 
-    # -----------------------------------------------------
+    # =====================================================
     # EXTRACT SKILLS
-    # -----------------------------------------------------
+    # =====================================================
 
     try:
 
@@ -192,9 +259,9 @@ def analyze():
             "details": str(e)
         }), 500
 
-    # -----------------------------------------------------
+    # =====================================================
     # NORMALIZE SKILL NAMES
-    # -----------------------------------------------------
+    # =====================================================
 
     resume_skills = [
         str(skill).lower().strip()
@@ -206,9 +273,9 @@ def analyze():
         for skill in required_skills
     ]
 
-    # -----------------------------------------------------
+    # =====================================================
     # REMOVE DUPLICATES
-    # -----------------------------------------------------
+    # =====================================================
 
     resume_skills = list(
         dict.fromkeys(resume_skills)
@@ -218,9 +285,9 @@ def analyze():
         dict.fromkeys(required_skills)
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # INITIAL SKILL GAP ANALYSIS
-    # -----------------------------------------------------
+    # =====================================================
 
     try:
 
@@ -246,9 +313,9 @@ def analyze():
             "details": str(e)
         }), 500
 
-    # -----------------------------------------------------
+    # =====================================================
     # BASIC JOB MATCH SCORE
-    # -----------------------------------------------------
+    # =====================================================
 
     if required_skills:
 
@@ -261,9 +328,9 @@ def analyze():
 
         match_score = 0
 
-    # -----------------------------------------------------
+    # =====================================================
     # EVIDENCE-BASED SKILL ANALYSIS
-    # -----------------------------------------------------
+    # =====================================================
 
     try:
 
@@ -279,9 +346,9 @@ def analyze():
             "details": str(e)
         }), 500
 
-    # -----------------------------------------------------
+    # =====================================================
     # JOB RELEVANCE ANALYSIS
-    # -----------------------------------------------------
+    # =====================================================
 
     try:
 
@@ -298,9 +365,9 @@ def analyze():
             "details": str(e)
         }), 500
 
-    # -----------------------------------------------------
+    # =====================================================
     # UPDATE SKILL GAP PRIORITIES
-    # -----------------------------------------------------
+    # =====================================================
 
     try:
 
@@ -327,9 +394,9 @@ def analyze():
 
     for skill in required_skills:
 
-        # ---------------------------------------------
-        # Find job relevance information
-        # ---------------------------------------------
+        # -------------------------------------------------
+        # FIND JOB RELEVANCE INFORMATION
+        # -------------------------------------------------
 
         relevance_item = next(
             (
@@ -342,9 +409,9 @@ def analyze():
             None
         )
 
-        # ---------------------------------------------
-        # Find evidence information
-        # ---------------------------------------------
+        # -------------------------------------------------
+        # FIND EVIDENCE INFORMATION
+        # -------------------------------------------------
 
         evidence_item = next(
             (
@@ -357,9 +424,9 @@ def analyze():
             None
         )
 
-        # ---------------------------------------------
-        # Missing skill
-        # ---------------------------------------------
+        # -------------------------------------------------
+        # MISSING SKILL
+        # -------------------------------------------------
 
         if skill not in resume_skills:
 
@@ -377,9 +444,9 @@ def analyze():
 
             continue
 
-        # ---------------------------------------------
-        # Get evidence score
-        # ---------------------------------------------
+        # -------------------------------------------------
+        # GET EVIDENCE SCORE
+        # -------------------------------------------------
 
         evidence_score = 0
 
@@ -405,9 +472,9 @@ def analyze():
                 evidence_score
             )
 
-        # ---------------------------------------------
-        # Get relevance score
-        # ---------------------------------------------
+        # -------------------------------------------------
+        # GET RELEVANCE SCORE
+        # -------------------------------------------------
 
         relevance_score = 0
 
@@ -429,9 +496,9 @@ def analyze():
 
                 relevance_score = 0
 
-        # ---------------------------------------------
-        # Component score
-        # ---------------------------------------------
+        # -------------------------------------------------
+        # COMPONENT SCORE
+        # -------------------------------------------------
 
         component_score = evidence_score
 
@@ -450,9 +517,9 @@ def analyze():
 
         })
 
-    # -----------------------------------------------------
+    # =====================================================
     # AVERAGE EVIDENCE SCORE
-    # -----------------------------------------------------
+    # =====================================================
 
     if matched_evidence_scores:
 
@@ -465,26 +532,26 @@ def analyze():
 
         average_evidence_score = 0
 
-    # -----------------------------------------------------
+    # =====================================================
     # EVIDENCE QUALITY FACTOR
-    # -----------------------------------------------------
+    # =====================================================
 
     evidence_quality_factor = (
         average_evidence_score / 100
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # FINAL EVIDENCE-AWARE JOB FIT
-    # -----------------------------------------------------
+    # =====================================================
 
     evidence_aware_score = (
         match_score
         * evidence_quality_factor
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # EVIDENCE COVERAGE
-    # -----------------------------------------------------
+    # =====================================================
 
     if required_skills:
 
@@ -497,9 +564,9 @@ def analyze():
 
         evidence_coverage = 0
 
-    # -----------------------------------------------------
+    # =====================================================
     # PERSONALIZED LEARNING RECOMMENDATIONS
-    # -----------------------------------------------------
+    # =====================================================
 
     try:
 
@@ -515,9 +582,9 @@ def analyze():
             "details": str(e)
         }), 500
 
-    # -----------------------------------------------------
+    # =====================================================
     # EVIDENCE STRENGTH SUMMARY
-    # -----------------------------------------------------
+    # =====================================================
 
     strong_skills = []
 
@@ -538,11 +605,14 @@ def analyze():
         )
 
         try:
+
             score = float(score)
+
         except (
             TypeError,
             ValueError
         ):
+
             score = 0
 
         if score >= 80:
@@ -557,9 +627,9 @@ def analyze():
 
             weak_skills.append(skill)
 
-    # -----------------------------------------------------
+    # =====================================================
     # HIGH PRIORITY SKILL GAPS
-    # -----------------------------------------------------
+    # =====================================================
 
     high_priority_gaps = []
 
@@ -574,9 +644,9 @@ def analyze():
                 item.get("skill")
             )
 
-    # -----------------------------------------------------
+    # =====================================================
     # LEARNING ORDER
-    # -----------------------------------------------------
+    # =====================================================
 
     learning_order = []
 
@@ -649,9 +719,9 @@ def analyze():
             "may improve job fit."
         )
 
-    # -----------------------------------------------------
+    # =====================================================
     # SKILL GAP EXPLANATION
-    # -----------------------------------------------------
+    # =====================================================
 
     total_required = len(required_skills)
 
@@ -814,13 +884,15 @@ def analyze():
 
 if __name__ == "__main__":
 
+    port = int(
+        os.environ.get(
+            "PORT",
+            5000
+        )
+    )
+
     app.run(
         host="0.0.0.0",
-        port=5000,
+        port=port,
         debug=True
     )
-    import os
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
